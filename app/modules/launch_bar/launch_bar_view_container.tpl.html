@@ -1,0 +1,9 @@
+<div ng-repeat="module in bar.modules | orderBy:'-__sortIndex'"
+     ng-show="module.active && (module.visible || module.forceVisible || module.scope.visible)">
+  <div class="module-container module-container-{{module.title}}"
+       launchbar-module></div>
+  <div class="module-container module-container-{{module.title}}"
+       ng-repeat="extension in module.extensions"
+       ng-show="(extension.visible || extension.scope.visible)"
+       launchbar-module-extension></div>
+</div>

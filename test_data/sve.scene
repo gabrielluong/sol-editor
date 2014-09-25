@@ -1,0 +1,45 @@
+{
+	"metadata": {
+		"version": 4,
+		"type": "object",
+		"generator": "ObjectExporter"
+	},
+	"geometries": [
+		{
+			"name": "Sphere 21",
+			"type": "SphereGeometry",
+			"radius": 7.5,
+			"widthSegments": 32,
+			"heightSegments": 16,
+			"phiStart": 0,
+			"phiLength": 6.283185307179586,
+			"thetaStart": 0,
+			"thetaLength": 3.141592653589793
+		}],
+	"materials": [
+		{
+			"type": "MeshPhongMaterial",
+			"color": 16777215,
+			"ambient": 16777215,
+			"emissive": 0,
+			"specular": 1118481,
+			"shininess": 30,
+			"opacity": 1,
+			"transparent": false,
+			"wireframe": false
+		}],
+	"object": {
+		"type": "Scene",
+		"children": [
+			{
+				"name": "Sphere 75",
+				"type": "Mesh",
+				"position": [0,0,-28.05078374602152],
+				"rotation": [0,0,0,
+					"XYZ"],
+				"scale": [4.1045158667322035,1,5.739549573909461],
+				"geometry": 0,
+				"material": 0
+			}]
+	}
+}

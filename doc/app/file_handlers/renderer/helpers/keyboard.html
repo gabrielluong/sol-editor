@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en"><head><title>app/file_handlers/renderer/helpers/keyboard</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/file_handlers/renderer/helpers/keyboard"><meta name="groc-project-path" content="app/file_handlers/renderer/helpers/keyboard.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/file_handlers/renderer/helpers/keyboard.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;renderer.keyboard&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.signals&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Keyboard&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">Signals</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$$phase</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;backspace&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tab&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;enter&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;shift&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">17</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;alt&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;caps_lock&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;escape&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">33</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;page_up&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">34</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;page_down&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">35</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;end&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">36</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;home&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">37</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;left_arrow&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">38</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;up_arrow&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">39</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;right_arrow&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;down_arrow&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">45</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;insert&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">46</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;delete&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">49</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">51</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">52</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;4&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">53</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;5&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">54</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;6&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">55</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;7&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">56</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;8&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">57</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;9&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">65</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">66</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">67</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">68</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;d&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">69</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;e&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">70</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">71</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">72</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;h&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">73</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;i&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">74</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;j&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">75</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">76</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;l&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">77</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">78</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">79</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">80</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;p&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">81</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;q&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">82</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">83</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">84</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;t&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">85</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;u&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">86</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;v&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">87</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">88</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">89</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">90</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;z&#39;</span><span class="p">;</span>
+  <span class="nx">map</span><span class="p">[</span><span class="mi">91</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;command&#39;</span><span class="p">;</span>
+
+  <span class="kd">function</span> <span class="nx">Keyboard</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">keys</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">a</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">b</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">c</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">d</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">e</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">f</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">g</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">h</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">i</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">j</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">k</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">l</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">m</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">n</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">o</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">p</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">q</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">r</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">s</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">t</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">u</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">v</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">w</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">x</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">y</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">z</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">1</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">2</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">3</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">4</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">5</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">6</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">7</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">8</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">9</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="mi">0</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">shift</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">control</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">command</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">option</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">__key_callbacks</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">a</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">b</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">c</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">d</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">e</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">f</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">g</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">h</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">i</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">j</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">k</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">l</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">m</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">n</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">o</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">p</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">q</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">r</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">s</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">t</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">u</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">v</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">w</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">x</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">y</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">z</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">1</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">2</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">3</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">4</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">5</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">6</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">7</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">8</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">9</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="mi">0</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">shift</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">control</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">command</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">option</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="p">};</span>
+
+    <span class="c1">//TODO: remove?</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>this.onKey = function (key, fn) {
+  var splits = key.split('.');
+  var key = splits.splice(0, 1);
+  var title = splits.join('.');</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>this.<em>_key</em>callbacks[key].push({
+    title: title,
+    fn: fn
+  });</p></div></div><div class="code"><div class="wrapper">    <span class="c1">// ;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>this.offkey = function (key) {
+  var splits = key.split('.');
+  var key = splits.splice(0, 1);
+  var title = splits.join('.');</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>var callbacks = this.<em>_key</em>callbacks[key];</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>for (var i = 0; i &lt; callbacks.length; i++) {
+    if (callbacks[i].title === title) {
+      callbacks.splice(i, 1);
+    }
+  }</p></div></div><div class="code"><div class="wrapper">    <span class="c1">// ;</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">keydown</span><span class="p">((</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:visible&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+          <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;tagName&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;INPUT&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">map</span><span class="p">[</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+          <span class="k">this</span><span class="p">.</span><span class="nx">handleKeypress</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}).</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">keyup</span><span class="p">((</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:visible&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+          <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;tagName&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;INPUT&#39;</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">map</span><span class="p">[</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}).</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleKeypress</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">switch</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="s1">&#39;g&#39;</span><span class="o">:</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">);</span> <span class="nx">update</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;r&#39;</span><span class="o">:</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">);</span> <span class="nx">update</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;s&#39;</span><span class="o">:</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">);</span> <span class="nx">update</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;x&#39;</span><span class="o">:</span> <span class="k">case</span> <span class="s1">&#39;y&#39;</span><span class="o">:</span> <span class="k">case</span> <span class="s1">&#39;z&#39;</span><span class="o">:</span>
+          <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;translate&#39;</span><span class="p">,</span> <span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">].</span><span class="nx">indexOf</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setSubstate</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="nx">update</span><span class="p">();</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">Keyboard</span><span class="p">;</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

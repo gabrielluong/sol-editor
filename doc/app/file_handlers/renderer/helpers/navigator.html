@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="en"><head><title>app/file_handlers/renderer/helpers/navigator</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/file_handlers/renderer/helpers/navigator"><meta name="groc-project-path" content="app/file_handlers/renderer/helpers/navigator.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/file_handlers/renderer/helpers/navigator.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">_cache</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;service.navigator&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.signals&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">service</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Navigator&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Signals</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">Navigator</span> <span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">_cache</span><span class="p">[</span><span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">])</span> <span class="k">return</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">];</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">guid</span> <span class="o">=</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">scope</span> <span class="o">=</span> <span class="nx">scope</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>renderer</p></div></div><div class="code"><div class="wrapper">    <span class="k">this</span><span class="p">.</span><span class="nx">__renderer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">WebGLRenderer</span><span class="p">(</span> <span class="p">{</span> <span class="nx">antialias</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">__renderer</span><span class="p">.</span><span class="nx">setSize</span><span class="p">(</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span> <span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>scene</p></div></div><div class="code"><div class="wrapper">    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Scene</span><span class="p">();</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>camera</p></div></div><div class="code"><div class="wrapper">    <span class="k">this</span><span class="p">.</span><span class="nx">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PerspectiveCamera</span><span class="p">(</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5000</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">140</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">lookAt</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;cube&#39;</span><span class="p">;</span>
+
+    <span class="nx">addNavObjects</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">navObject</span> <span class="o">=</span> <span class="nx">create3DObject</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">navObject</span><span class="p">);</span>
+
+    <span class="c1">//DEBUG</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">yellow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xf1f122</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">red</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xD75B5B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">green</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xB2D75B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">blue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x5B9ED7</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">light_grey</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+    <span class="nx">_cache</span><span class="p">[</span><span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Navigator</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">guid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">guid</span><span class="p">];</span>
+  <span class="p">};</span>
+
+  <span class="nx">Navigator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">project</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">clicked</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">navObject</span><span class="p">.</span><span class="nx">children</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">({</span><span class="nx">color</span><span class="o">:</span> <span class="mh">0x333333</span><span class="p">});</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">red</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">green</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">blue</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">light_grey</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">light_grey</span><span class="p">;</span>
+      <span class="nx">s</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">light_grey</span><span class="p">;</span>
+
+
+    <span class="kd">var</span> <span class="nx">projector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Projector</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">raycaster</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Raycaster</span><span class="p">();</span>
+
+    <span class="kd">var</span> <span class="nx">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span>
+      <span class="p">(</span> <span class="nx">x</span> <span class="o">/</span> <span class="mi">75</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="o">-</span><span class="p">(</span> <span class="nx">y</span> <span class="o">/</span> <span class="mi">75</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="mf">0.5</span>
+    <span class="p">);</span>
+
+    <span class="nx">projector</span><span class="p">.</span><span class="nx">unprojectVector</span><span class="p">(</span> <span class="nx">vector</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span> <span class="p">);</span>
+
+    <span class="nx">raycaster</span><span class="p">.</span><span class="nx">ray</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Ray</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">,</span> <span class="nx">vector</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span> <span class="p">).</span><span class="nx">normalize</span><span class="p">()</span> <span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">intersects</span> <span class="o">=</span> <span class="nx">raycaster</span><span class="p">.</span><span class="nx">intersectObjects</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">navObject</span><span class="p">.</span><span class="nx">children</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">intersects</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="nx">intersects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">object</span><span class="p">;</span>
+
+      <span class="nx">object</span><span class="p">.</span><span class="nx">material</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">yellow</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>from a click event</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="nx">clicked</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">object</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span><span class="mf">1.2204874418288088</span><span class="p">,</span><span class="mf">0.7958701389094145</span><span class="p">);</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;cube&#39;</span><span class="p">;</span>
+          <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">switch</span> <span class="p">(</span> <span class="nx">object</span><span class="p">.</span><span class="nx">name</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="k">case</span> <span class="s1">&#39;cube&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span><span class="mf">1.2204874418288088</span><span class="p">,</span><span class="mf">0.7958701389094145</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;cube&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;y+&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">0</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;y+&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;x+&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;x+&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;z+&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+              <span class="mi">0</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;z+&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;x-&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+              <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;x-&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;y-&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">,</span>
+              <span class="mi">0</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;y-&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;z-&#39;</span><span class="o">:</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">controls</span><span class="p">.</span><span class="nx">rotationChanged</span><span class="p">(</span>
+              <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+              <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span>
+            <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="s1">&#39;z-&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="nx">Navigator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">pause</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cancelAnimationFrame</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">__animationRequest</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="nx">Navigator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">play</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">__animationRequest</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="nx">Navigator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">render</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">__renderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">__animationRequest</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">Navigator</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">addNavObjects</span> <span class="p">(</span><span class="nx">scene</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">navLight</span><span class="p">;</span>
+
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">AmbientLight</span><span class="p">(</span><span class="mh">0x444444</span><span class="p">)</span> <span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">200</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+
+  <span class="nx">navLight</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="mh">0xffffff</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="nx">navLight</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">navLight</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">create3DObject</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">viewNav</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Object3D</span><span class="p">();</span>
+
+  <span class="kd">var</span> <span class="nx">geo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CubeGeometry</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">mat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">({</span><span class="nx">color</span><span class="o">:</span> <span class="mh">0x333333</span><span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">geo</span><span class="p">,</span> <span class="nx">mat</span> <span class="p">);</span>
+  <span class="nx">cube</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;cube&quot;</span><span class="p">;</span>
+
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">cube</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headGeometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CylinderGeometry</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">55</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headxMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xD75B5B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+  <span class="nx">headx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headxMat</span> <span class="p">);</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;x+&quot;</span><span class="p">;</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xD75B5B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headx</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headyMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xB2D75B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+  <span class="nx">heady</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headyMat</span> <span class="p">);</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;y+&quot;</span><span class="p">;</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xB2D75B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">heady</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headzMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x5B9ED7</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+  <span class="nx">headz</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headzMat</span> <span class="p">);</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;z+&quot;</span><span class="p">;</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x5B9ED7</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headz</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headBlankMatz</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headzneg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headBlankMatz</span> <span class="p">);</span>
+    <span class="nx">headzneg</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="p">;</span>
+    <span class="nx">headzneg</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="nx">headzneg</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;z-&#39;</span><span class="p">;</span>
+    <span class="nx">headzneg</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headBlankMatx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+  <span class="nx">headxneg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headBlankMatx</span> <span class="p">);</span>
+    <span class="nx">headxneg</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="p">;</span>
+    <span class="nx">headxneg</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="nx">headxneg</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;x-&#39;</span><span class="p">;</span>
+    <span class="nx">headxneg</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headBlankMaty</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+  <span class="nx">headyneg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headBlankMaty</span> <span class="p">);</span>
+    <span class="nx">headyneg</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="p">;</span>
+    <span class="nx">headyneg</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;y-&#39;</span><span class="p">;</span>
+    <span class="nx">headyneg</span><span class="p">.</span><span class="nx">defaultMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xcccccc</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headzneg</span> <span class="p">);</span>
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headxneg</span> <span class="p">);</span>
+  <span class="nx">viewNav</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headyneg</span> <span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">viewNav</span><span class="p">;</span>
+<span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

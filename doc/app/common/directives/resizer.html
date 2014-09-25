@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/directives/resizer</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/directives/resizer"><meta name="groc-project-path" content="app/common/directives/resizer.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/directives/resizer.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;directive.resizer&#39;</span><span class="p">,</span> <span class="p">[]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;resizer&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;direction&#39;</span><span class="o">:</span> <span class="s1">&#39;=resizer&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">$el</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="s1">&#39;direction&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">priorCursor</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">opt</span> <span class="o">=</span> <span class="p">{</span><span class="nx">min</span><span class="o">:</span> <span class="mi">10</span><span class="p">};</span>
+        <span class="nx">opt</span><span class="p">.</span><span class="nx">cursor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">direction</span> <span class="o">===</span> <span class="s1">&#39;row&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;ew-resize&#39;</span><span class="o">:</span> <span class="s1">&#39;ns-resize&#39;</span><span class="p">;</span>
+
+        <span class="nx">$el</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">,</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">cursor</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;mousedown.resize&#39;</span><span class="p">);</span>
+
+        <span class="nx">$el</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dblclick.resize&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">$drag</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+
+          <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+          <span class="kd">var</span> <span class="nx">prev</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">prev</span><span class="p">();</span>
+
+          <span class="nx">next</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;flex&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+          <span class="nx">prev</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;flex&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+        <span class="p">});</span>
+
+        <span class="nx">$el</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mousedown.resize&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">priorCursor</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">);</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">,</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">cursor</span><span class="p">);</span>
+
+          <span class="kd">var</span> <span class="nx">$drag</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;draggable&#39;</span><span class="p">);</span>
+
+          <span class="kd">var</span> <span class="nx">z_idx</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;z-index&#39;</span><span class="p">),</span>
+              <span class="nx">drg_h</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">outerHeight</span><span class="p">(),</span>
+              <span class="nx">drg_w</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">outerWidth</span><span class="p">(),</span>
+              <span class="nx">pos_y</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span> <span class="o">+</span> <span class="nx">drg_h</span> <span class="o">-</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageY</span><span class="p">,</span>
+              <span class="nx">pos_x</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span> <span class="o">+</span> <span class="nx">drg_w</span> <span class="o">-</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
+
+          <span class="nx">$drag</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;z-index&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">).</span><span class="nx">parents</span><span class="p">().</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mousemove.resizer&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kd">var</span> <span class="nx">prev</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">prev</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="nx">$drag</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Assume 50/50 split between prev and next then adjust to
+the next X for prev</p></div></div><div class="code"><div class="wrapper">            <span class="kd">var</span> <span class="nx">total</span><span class="p">,</span> <span class="nx">prevPercentage</span><span class="p">,</span> <span class="nx">nextPercentage</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">direction</span> <span class="o">===</span> <span class="s1">&#39;row&#39;</span><span class="p">)</span> <span class="p">{</span>
+              <span class="nx">total</span> <span class="o">=</span> <span class="nx">prev</span><span class="p">.</span><span class="nx">outerWidth</span><span class="p">()</span> <span class="o">+</span> <span class="nx">next</span><span class="p">.</span><span class="nx">outerWidth</span><span class="p">();</span>
+              <span class="nx">prevPercentage</span> <span class="o">=</span> <span class="p">(((</span><span class="nx">e</span><span class="p">.</span><span class="nx">pageX</span> <span class="o">-</span> <span class="nx">prev</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">pos_x</span> <span class="o">-</span> <span class="nx">drg_w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="nx">total</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="nx">total</span> <span class="o">=</span> <span class="nx">prev</span><span class="p">.</span><span class="nx">outerHeight</span><span class="p">()</span> <span class="o">+</span> <span class="nx">next</span><span class="p">.</span><span class="nx">outerHeight</span><span class="p">();</span>
+              <span class="nx">prevPercentage</span> <span class="o">=</span> <span class="p">(((</span><span class="nx">e</span><span class="p">.</span><span class="nx">pageY</span> <span class="o">-</span> <span class="nx">prev</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">pos_y</span> <span class="o">-</span> <span class="nx">drg_h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="nx">total</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="nx">nextPercentage</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nx">prevPercentage</span><span class="p">;</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="nx">prevPercentage</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">&lt;</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">min</span> <span class="o">||</span> <span class="nx">nextPercentage</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">&lt;</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">min</span><span class="p">)</span>
+            <span class="p">{</span>
+              <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="nx">prev</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;flex&#39;</span><span class="p">,</span> <span class="nx">prevPercentage</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+            <span class="nx">next</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;flex&#39;</span><span class="p">,</span> <span class="nx">nextPercentage</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+          <span class="p">});</span>
+
+          <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouseup.resizer&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;mouseup.resizer&#39;</span><span class="p">);</span>
+            <span class="nx">$drag</span><span class="p">.</span><span class="nx">parents</span><span class="p">().</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;mousemove.resizer&#39;</span><span class="p">);</span>
+
+            <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;view.resize&#39;</span><span class="p">);</span>
+
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">,</span> <span class="nx">priorCursor</span><span class="p">);</span>
+              <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.draggable&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;draggable&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;z-index&#39;</span><span class="p">,</span> <span class="nx">z_idx</span><span class="p">);</span>
+          <span class="p">});</span>
+
+          <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span> <span class="c1">// disable selection</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

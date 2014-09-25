@@ -1,0 +1,18 @@
+{
+	"metadata": {
+		"version": 4,
+		"type": "object",
+		"generator": "ObjectExporter"
+	},
+	"object": {
+		"scripts": [],
+		"tags": [],
+		"type": "Scene",
+		"children": [
+			{
+				"scripts": [],
+				"tags": [],
+				"type": "Scene"
+			}]
+	}
+}

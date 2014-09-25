@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/launch_bar/file_tree/file_tree</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/modules/launch_bar/file_tree/file_tree"><meta name="groc-project-path" content="app/modules/launch_bar/file_tree/file_tree.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/launch_bar/file_tree/file_tree.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;sol.launch_bar.file_tree&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.files&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.tabs&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.pallette&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span> <span class="s1">&#39;sol.launch_bar.file_tree&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">FileTreeController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">File</span><span class="p">,</span> <span class="nx">Tabs</span><span class="p">,</span> <span class="nx">Pallette</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">files</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">files</span><span class="p">;</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">open</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fileObj</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">fileObj</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fileObj</span><span class="p">.</span><span class="nx">files</span><span class="p">)</span> <span class="nx">fileObj</span><span class="p">.</span><span class="nx">files</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">loadFileTree</span><span class="p">(</span><span class="nx">fileObj</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
+
+      <span class="nx">fileObj</span><span class="p">.</span><span class="nx">open</span> <span class="o">=</span> <span class="o">!</span><span class="nx">fileObj</span><span class="p">.</span><span class="nx">open</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">File</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">fileObj</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tab_events</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Tabs</span><span class="p">();</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tab_events</span><span class="p">.</span><span class="nx">onSelected</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">tab</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">selected</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">files</span><span class="p">)</span> <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">files</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">path</span> <span class="o">===</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">uid</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">selected</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">files</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tab_events</span><span class="p">.</span><span class="nx">onDeselected</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">tab</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">path</span> <span class="o">===</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">uid</span><span class="p">)</span> <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">selected</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">files</span><span class="p">)</span> <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">files</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">checkFiles</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">files</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

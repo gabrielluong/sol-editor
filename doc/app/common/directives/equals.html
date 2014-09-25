@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/directives/equals</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/directives/equals"><meta name="groc-project-path" content="app/common/directives/equals.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/directives/equals.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">verify</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.equals&#39;</span><span class="p">,</span> <span class="p">[]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">verify</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="c1">// only activate on element attribute</span>
+    <span class="nx">require</span><span class="o">:</span> <span class="s1">&#39;?ngModel&#39;</span><span class="p">,</span> <span class="c1">// get a hold of NgModelController</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">ngModel</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">validateStarted</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+      <span class="nx">elem</span><span class="p">.</span><span class="nx">blur</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">validateStarted</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="p">});</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">ngModel</span><span class="p">){</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span><span class="c1">// do nothing if no ng-model</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>watch own value and re-validate on change</p></div></div><div class="code"><div class="wrapper">      <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">ngModel</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">validate</span><span class="p">();</span>
+      <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>observe the other value and re-validate on change</p></div></div><div class="code"><div class="wrapper">      <span class="nx">attrs</span><span class="p">.</span><span class="nx">$observe</span><span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">validate</span><span class="p">();</span>
+      <span class="p">});</span>
+
+      <span class="kd">var</span> <span class="nx">validate</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">validateStarted</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span><span class="p">;}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>values</p></div></div><div class="code"><div class="wrapper">        <span class="kd">var</span> <span class="nx">val1</span> <span class="o">=</span> <span class="nx">ngModel</span><span class="p">.</span><span class="nx">$viewValue</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">val2</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">.</span><span class="nx">equals</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>set validity</p></div></div><div class="code"><div class="wrapper">        <span class="nx">ngModel</span><span class="p">.</span><span class="nx">$setValidity</span><span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="nx">val1</span> <span class="o">===</span> <span class="nx">val2</span><span class="p">);</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

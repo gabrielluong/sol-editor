@@ -1,0 +1,27 @@
+<div class="file-tree">
+    <span class="file-tree-title">
+        Files
+    </span>
+    <script type="text/ng-template"  id="tree_file_renderer.html">
+        <span class="gui-tree-item">
+            <span ng-if="file.isDirectory" class="fa" ng-class="{'fa-angle-right': !file.open, 'fa-angle-down': file.open}"></span>
+            {{file.name}}
+            <ul ng-if="file.isDirectory" ng-show="file.open">
+                <li ng-repeat="file in file.files"
+                    ng-include="'tree_file_renderer.html'"
+                    class="gui-tree-item"
+                    ng-class="{'selected': file.selected, 'directory': file.isDirectory}"
+                    ng-click="$event.stopPropagation(); open(file);">
+                </li>
+            </ul>
+        </span>
+    </script>
+
+    <ul>
+        <li ng-repeat="file in files.files"
+            ng-include="'tree_file_renderer.html'"
+            ng-class="{'selected': file.selected, 'directory': file.isDirectory}"
+            ng-click="$event.stopPropagation(); open(file);"
+            ></li>
+    </ul>
+</div>

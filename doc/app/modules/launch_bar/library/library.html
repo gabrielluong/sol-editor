@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/launch_bar/library/library</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/modules/launch_bar/library/library"><meta name="groc-project-path" content="app/modules/launch_bar/library/library.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/launch_bar/library/library.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>----SKWINTZ--------------------------------------------------------------- </p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;sol.launch_bar.library&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.tabs&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.renderer&#39;</span>
+<span class="p">]);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;sol.launch_bar.library&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">LibraryController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">Tabs</span><span class="p">,</span> <span class="nx">Renderer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="kd">function</span> <span class="nx">build</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">renderer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Renderer</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">createDefault</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+
+    <span class="nx">renderer</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">objects</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Native&#39;</span><span class="p">,</span>
+      <span class="nx">children</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Lights&#39;</span><span class="p">,</span>
+      <span class="nx">children</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+  <span class="p">];</span>
+
+  <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Sphere&#39;</span><span class="p">,</span> <span class="s1">&#39;Cube&#39;</span><span class="p">,</span> <span class="s1">&#39;Plane&#39;</span><span class="p">,</span> <span class="s1">&#39;Cylinder&#39;</span><span class="p">,</span> <span class="s1">&#39;Cone&#39;</span><span class="p">];</span>
+  <span class="kd">var</span> <span class="nx">lights</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Directional&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemisphere&#39;</span><span class="p">,</span> <span class="s1">&#39;Ambient&#39;</span><span class="p">,</span> <span class="s1">&#39;Spot&#39;</span><span class="p">,</span> <span class="s1">&#39;Point&#39;</span><span class="p">];</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">objects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">children</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+      <span class="nx">build</span><span class="o">:</span> <span class="nx">build</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">toLowerCase</span><span class="p">())</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">lights</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">objects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">children</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="nx">lights</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+      <span class="nx">build</span><span class="o">:</span> <span class="nx">build</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">lights</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">toLowerCase</span><span class="p">())</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">open</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">object</span><span class="p">.</span><span class="nx">build</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">object</span><span class="p">.</span><span class="nx">open</span> <span class="o">=</span> <span class="o">!</span><span class="nx">object</span><span class="p">.</span><span class="nx">open</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">object</span><span class="p">.</span><span class="nx">build</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">getObjects</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">objects</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">createDummyMaterial</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshPhongMaterial</span><span class="p">();</span>
+
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">createDefault</span> <span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+
+  <span class="kd">var</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">depthSegments</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">geometry</span><span class="p">,</span> <span class="nx">mesh</span><span class="p">,</span> <span class="nx">light</span><span class="p">,</span>
+      <span class="nx">radius</span><span class="p">,</span> <span class="nx">radiusTop</span><span class="p">,</span> <span class="nx">radiusBottom</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="nx">openEnded</span><span class="p">,</span> <span class="nx">distance</span><span class="p">,</span>
+      <span class="nx">angle</span><span class="p">,</span> <span class="nx">exponent</span><span class="p">,</span> <span class="nx">skyColor</span><span class="p">,</span> <span class="nx">groundColor</span><span class="p">,</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">intensity</span><span class="p">;</span>
+
+  <span class="k">switch</span> <span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+    <span class="cm">/**/</span><span class="c1">//    G E O M E T R I E S</span>
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;cube&#39;</span><span class="o">:</span>
+
+      <span class="nx">width</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="nx">height</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="nx">depth</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+      <span class="nx">widthSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">depthSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CubeGeometry</span><span class="p">(</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="nx">depthSegments</span> <span class="p">);</span>
+      <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cube &#39;</span> <span class="o">+</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+        <span class="nx">geometry</span><span class="p">,</span>
+        <span class="nx">createDummyMaterial</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span>
+      <span class="p">);</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cube &#39;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">mesh</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;plane&#39;</span><span class="o">:</span>
+
+      <span class="nx">width</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+      <span class="nx">height</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+
+      <span class="nx">widthSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PlaneGeometry</span><span class="p">(</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span> <span class="p">);</span>
+      <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Plane &#39;</span> <span class="o">+</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+        <span class="nx">geometry</span><span class="p">,</span>
+        <span class="nx">createDummyMaterial</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span>
+      <span class="p">);</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Plane &#39;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">mesh</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;cylinder&#39;</span><span class="o">:</span>
+
+      <span class="nx">radiusTop</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+      <span class="nx">radiusBottom</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+      <span class="nx">height</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="nx">radiusSegments</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+      <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">openEnded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+      <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CylinderGeometry</span><span class="p">(</span> <span class="nx">radiusTop</span><span class="p">,</span> <span class="nx">radiusBottom</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">radiusSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="nx">openEnded</span> <span class="p">);</span>
+      <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cylinder &#39;</span> <span class="o">+</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+        <span class="nx">geometry</span><span class="p">,</span>
+        <span class="nx">createDummyMaterial</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span>
+      <span class="p">);</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cylinder &#39;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">mesh</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;sphere&#39;</span><span class="o">:</span>
+
+      <span class="nx">radius</span> <span class="o">=</span> <span class="mf">7.5</span><span class="p">;</span>
+      <span class="nx">widthSegments</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span>
+      <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+
+      <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SphereGeometry</span><span class="p">(</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span> <span class="p">);</span>
+      <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Sphere &#39;</span> <span class="o">+</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+        <span class="nx">geometry</span><span class="p">,</span>
+        <span class="nx">createDummyMaterial</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span>
+      <span class="p">);</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Sphere &#39;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">mesh</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;cone&#39;</span><span class="o">:</span>
+
+      <span class="nx">radiusTop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="nx">radiusBottom</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+      <span class="nx">height</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="nx">radiusSegments</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+      <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">openEnded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+      <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CylinderGeometry</span><span class="p">(</span> <span class="nx">radiusTop</span><span class="p">,</span> <span class="nx">radiusBottom</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">radiusSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="nx">openEnded</span> <span class="p">);</span>
+      <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cone &#39;</span> <span class="o">+</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+        <span class="nx">geometry</span><span class="p">,</span>
+        <span class="nx">createDummyMaterial</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span>
+      <span class="p">);</span>
+
+      <span class="nx">mesh</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Cone &#39;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">mesh</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+    <span class="cm">/**/</span><span class="c1">//    L I G H T S</span>
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;point&#39;</span><span class="o">:</span>
+
+      <span class="nx">color</span> <span class="o">=</span> <span class="mh">0xffffff</span><span class="p">;</span>
+      <span class="nx">intensity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">distance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+      <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">intensity</span><span class="p">,</span> <span class="nx">distance</span> <span class="p">);</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;PointLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="nx">light</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">).</span><span class="nx">multiplyScalar</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">light</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;spot&#39;</span><span class="o">:</span>
+
+      <span class="nx">color</span> <span class="o">=</span> <span class="mh">0xffffff</span><span class="p">;</span>
+      <span class="nx">intensity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="nx">distance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="nx">angle</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>
+      <span class="nx">exponent</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+      <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SpotLight</span><span class="p">(</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">intensity</span><span class="p">,</span> <span class="nx">distance</span><span class="p">,</span> <span class="nx">angle</span><span class="p">,</span> <span class="nx">exponent</span> <span class="p">);</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;SpotLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;SpotLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39; Target&#39;</span><span class="p">;</span>
+
+      <span class="nx">light</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">).</span><span class="nx">multiplyScalar</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">light</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;hemisphere&#39;</span><span class="o">:</span>
+
+      <span class="nx">skyColor</span> <span class="o">=</span> <span class="mh">0x00aaff</span><span class="p">;</span>
+      <span class="nx">groundColor</span> <span class="o">=</span> <span class="mh">0xffaa00</span><span class="p">;</span>
+      <span class="nx">intensity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">HemisphereLight</span><span class="p">(</span> <span class="nx">skyColor</span><span class="p">,</span> <span class="nx">groundColor</span><span class="p">,</span> <span class="nx">intensity</span> <span class="p">);</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;HemisphereLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+      <span class="c1">//light.groundColor = 0xfaad51;</span>
+
+      <span class="nx">light</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">).</span><span class="nx">multiplyScalar</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">light</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;directional&#39;</span><span class="o">:</span>
+
+      <span class="nx">color</span> <span class="o">=</span> <span class="mh">0xffffff</span><span class="p">;</span>
+      <span class="nx">intensity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">DirectionalLight</span><span class="p">(</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">intensity</span> <span class="p">);</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;DirectionalLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;DirectionalLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39; Target&#39;</span><span class="p">;</span>
+
+      <span class="nx">light</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">).</span><span class="nx">multiplyScalar</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">light</span><span class="p">;</span>
+
+    <span class="c1">//-------------------------------------------//</span>
+
+    <span class="k">case</span> <span class="s1">&#39;ambient&#39;</span><span class="o">:</span>
+
+      <span class="nx">color</span> <span class="o">=</span> <span class="mh">0x222222</span><span class="p">;</span>
+
+      <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">AmbientLight</span><span class="p">(</span> <span class="nx">color</span> <span class="p">);</span>
+      <span class="nx">light</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;AmbientLight &#39;</span> <span class="o">+</span> <span class="nx">light</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+      <span class="k">return</span> <span class="nx">light</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+<span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

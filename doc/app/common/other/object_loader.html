@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/other/object_loader</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/other/object_loader"><meta name="groc-project-path" content="app/common/other/object_loader.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/other/object_loader.js</div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'> author mrdoob / http://mrdoob.com/</span></p></div></div><div class="code"><div class="wrapper"><span class="nx">THREE</span><span class="p">.</span><span class="nx">ObjectLoader</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">THREE</span><span class="p">.</span><span class="nx">ObjectLoader</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ObjectLoader</span><span class="p">,</span>
+
+  <span class="nx">addEventListener</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">,</span>
+  <span class="nx">hasEventListener</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasEventListener</span><span class="p">,</span>
+  <span class="nx">removeEventListener</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">,</span>
+  <span class="nx">dispatchEvent</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">,</span>
+
+  <span class="nx">load</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">url</span> <span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">responseText</span> <span class="p">)</span> <span class="p">);</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="nx">content</span><span class="o">:</span> <span class="nx">response</span> <span class="p">}</span> <span class="p">);</span>
+
+    <span class="p">},</span> <span class="kc">false</span> <span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s1">&#39;progress&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;progress&#39;</span><span class="p">,</span> <span class="nx">loaded</span><span class="o">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">loaded</span><span class="p">,</span> <span class="nx">total</span><span class="o">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">total</span> <span class="p">}</span> <span class="p">);</span>
+
+    <span class="p">},</span> <span class="kc">false</span> <span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Couldn\&#39;t load URL [&#39;</span> <span class="o">+</span> <span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span> <span class="p">}</span> <span class="p">);</span>
+
+    <span class="p">},</span> <span class="kc">false</span> <span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+
+  <span class="p">},</span>
+
+  <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">json</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">loader</span><span class="p">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">data</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>geometries</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">json</span><span class="p">.</span><span class="nx">geometries</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">geometries</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">JSONLoader</span><span class="p">();</span>
+
+      <span class="k">for</span> <span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">geometries</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">geometry</span><span class="p">;</span>
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">geometries</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span>
+
+        <span class="k">switch</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="p">)</span> <span class="p">{</span>
+
+          <span class="k">case</span> <span class="s1">&#39;PlaneGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PlaneGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">widthSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">heightSegments</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;CubeGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CubeGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">depth</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">widthSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">heightSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">depthSegments</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;CylinderGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CylinderGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radiusTop</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radiusBottom</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radiusSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">heightSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">openEnded</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;SphereGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SphereGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">widthSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">heightSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">phiStart</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">phiLength</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">thetaStart</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">thetaLength</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;IcosahedronGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">IcosahedronGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">detail</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;TorusGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">TorusGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">tube</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radialSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">tubularSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">arc</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;TorusKnotGeometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">TorusKnotGeometry</span><span class="p">(</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">tube</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">radialSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">tubularSegments</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">p</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">q</span><span class="p">,</span>
+              <span class="nx">data</span><span class="p">.</span><span class="nx">heightScale</span>
+            <span class="p">);</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+          <span class="k">case</span> <span class="s1">&#39;Geometry&#39;</span><span class="o">:</span>
+
+            <span class="nx">geometry</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">data</span> <span class="p">).</span><span class="nx">geometry</span><span class="p">;</span>
+
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+        <span class="nx">geometries</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">geometry</span> <span class="p">);</span>
+
+      <span class="p">}</span>
+
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>materials</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">json</span><span class="p">.</span><span class="nx">materials</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">materials</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MaterialLoader</span><span class="p">();</span>
+
+      <span class="k">for</span> <span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">materials</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">materials</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span>
+        <span class="kd">var</span> <span class="nx">material</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">data</span> <span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="nx">material</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+
+        <span class="nx">materials</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">material</span> <span class="p">);</span>
+
+      <span class="p">}</span>
+
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>objects</p></div></div><div class="code"><div class="wrapper">    <span class="kd">var</span> <span class="nx">parseObject</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">data</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">object</span><span class="p">;</span>
+
+      <span class="k">switch</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">case</span> <span class="s1">&#39;Scene&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Scene</span><span class="p">();</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;PerspectiveCamera&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PerspectiveCamera</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">fov</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">aspect</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">near</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">far</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">rotation</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;OrthographicCamera&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">OrthographicCamera</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">right</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">near</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">far</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">rotation</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;AmbientLight&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">AmbientLight</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">color</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;DirectionalLight&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">DirectionalLight</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">color</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">intensity</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;PointLight&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PointLight</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">color</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">intensity</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">distance</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;SpotLight&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SpotLight</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">color</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">intensity</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">distance</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">angle</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">exponent</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;HemisphereLight&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">HemisphereLight</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">color</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">groundColor</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">intensity</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="s1">&#39;Mesh&#39;</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">geometries</span><span class="p">[</span> <span class="nx">data</span><span class="p">.</span><span class="nx">geometry</span> <span class="p">],</span> <span class="nx">materials</span><span class="p">[</span> <span class="nx">data</span><span class="p">.</span><span class="nx">material</span> <span class="p">]</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">rotation</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">scale</span> <span class="p">);</span>
+
+          <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">default</span><span class="o">:</span>
+
+          <span class="nx">object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Object3D</span><span class="p">();</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">rotation</span> <span class="p">);</span>
+          <span class="nx">object</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">scale</span> <span class="p">);</span>
+
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="nx">object</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">visible</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="nx">object</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">visible</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">userData</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="nx">object</span><span class="p">.</span><span class="nx">userData</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">userData</span><span class="p">;</span>
+
+      <span class="nx">object</span><span class="p">.</span><span class="nx">scripts</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">scripts</span> <span class="o">||</span> <span class="p">[];</span>
+      <span class="nx">object</span><span class="p">.</span><span class="nx">tags</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">tags</span> <span class="o">||</span> <span class="p">[];</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>var places = {
+  update: object.scripts.update,
+  load: object.scripts.load,
+  other: object.scripts.other,
+  destroy: object.scripts.destroy</p></div></div><div class="code"><div class="wrapper">      <span class="c1">// ;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>for ( var i in data.scripts ) {</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>for ( var j = 0; j &lt; data.scripts[i].length; j++ ) {</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><pre><code>places[i].push({
+  script: new Function( data.scripts[i][j].script ),
+  name: data.scripts[i][j].name
+});
+</code></pre></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>}</p></div></div><div class="code"><div class="wrapper">      <span class="c1">// </span>
+
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">children</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+
+          <span class="nx">object</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">parseObject</span><span class="p">(</span> <span class="nx">data</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span> <span class="nx">i</span> <span class="p">]</span> <span class="p">)</span> <span class="p">);</span>
+
+        <span class="p">}</span>
+
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="nx">object</span><span class="p">;</span>
+
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nx">parseObject</span><span class="p">(</span> <span class="nx">json</span><span class="p">.</span><span class="nx">object</span> <span class="p">);</span>
+
+  <span class="p">}</span>
+
+<span class="p">};</span></div></div></div></div></body></html>

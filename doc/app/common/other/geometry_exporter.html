@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/other/geometry_exporter</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/other/geometry_exporter"><meta name="groc-project-path" content="app/common/other/geometry_exporter.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/other/geometry_exporter.js</div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'> author mrdoob / http://mrdoob.com/</span></p></div></div><div class="code"><div class="wrapper"><span class="nx">THREE</span><span class="p">.</span><span class="nx">GeometryExporter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">THREE</span><span class="p">.</span><span class="nx">GeometryExporter</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">GeometryExporter</span><span class="p">,</span>
+
+  <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">geometry</span> <span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">metadata</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">version</span><span class="o">:</span> <span class="mf">4.0</span><span class="p">,</span>
+        <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;geometry&#39;</span><span class="p">,</span>
+        <span class="nx">generator</span><span class="o">:</span> <span class="s1">&#39;GeometryExporter&#39;</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="kd">var</span> <span class="nx">vertices</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">vertices</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">vertex</span> <span class="o">=</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">vertices</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span>
+      <span class="nx">vertices</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">vertex</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertex</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertex</span><span class="p">.</span><span class="nx">z</span> <span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">faces</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">var</span> <span class="nx">uvs</span> <span class="o">=</span> <span class="p">[[]];</span>
+    <span class="kd">var</span> <span class="nx">normals</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">var</span> <span class="nx">normalsHash</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">faces</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">face</span> <span class="o">=</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">faces</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span>
+
+      <span class="kd">var</span> <span class="nx">isTriangle</span> <span class="o">=</span> <span class="nx">face</span> <span class="k">instanceof</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Face3</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">hasMaterial</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// face.materialIndex !== undefined;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceUv</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// geometry.faceUvs[ 0 ][ i ] !== undefined;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceVertexUv</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// geometry.faceVertexUvs[ 0 ][ i ] !== undefined;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceNormal</span> <span class="o">=</span> <span class="nx">face</span><span class="p">.</span><span class="nx">normal</span><span class="p">.</span><span class="nx">length</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceVertexNormal</span> <span class="o">=</span> <span class="nx">face</span><span class="p">.</span><span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceColor</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// face.color;</span>
+      <span class="kd">var</span> <span class="nx">hasFaceVertexColor</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// face.vertexColors[ 0 ] !== undefined;</span>
+
+      <span class="kd">var</span> <span class="nx">faceType</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">!</span> <span class="nx">isTriangle</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">hasMaterial</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">hasFaceUv</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">hasFaceVertexUv</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">hasFaceNormal</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="nx">hasFaceVertexNormal</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="nx">hasFaceColor</span> <span class="p">);</span>
+      <span class="nx">faceType</span> <span class="o">=</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">faceType</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="nx">hasFaceVertexColor</span> <span class="p">);</span>
+
+      <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">faceType</span> <span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">isTriangle</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">face</span><span class="p">.</span><span class="nx">a</span><span class="p">,</span> <span class="nx">face</span><span class="p">.</span><span class="nx">b</span><span class="p">,</span> <span class="nx">face</span><span class="p">.</span><span class="nx">c</span> <span class="p">);</span>
+
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+        <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">face</span><span class="p">.</span><span class="nx">a</span><span class="p">,</span> <span class="nx">face</span><span class="p">.</span><span class="nx">b</span><span class="p">,</span> <span class="nx">face</span><span class="p">.</span><span class="nx">c</span><span class="p">,</span> <span class="nx">face</span><span class="p">.</span><span class="nx">d</span> <span class="p">);</span>
+
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">hasMaterial</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">face</span><span class="p">.</span><span class="nx">materialIndex</span> <span class="p">);</span>
+
+      <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>if ( hasFaceUv ) {</p>
+
+<p>var uv = geometry.faceUvs[ 0 ][ i ];
+  uvs[ 0 ].push( uv.u, uv.v );</p>
+
+<p>}</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>if ( hasFaceVertexUv ) {</p>
+
+<p>var uvs = geometry.faceVertexUvs[ 0 ][ i ];</p>
+
+<p>if ( isTriangle ) {</p>
+
+<pre><code>faces.push(
+  uvs[ 0 ].u, uvs[ 0 ].v,
+  uvs[ 1 ].u, uvs[ 1 ].v,
+  uvs[ 2 ].u, uvs[ 2 ].v
+);
+</code></pre>
+
+<p>} else {</p>
+
+<pre><code>faces.push(
+  uvs[ 0 ].u, uvs[ 0 ].v,
+  uvs[ 1 ].u, uvs[ 1 ].v,
+  uvs[ 2 ].u, uvs[ 2 ].v,
+  uvs[ 3 ].u, uvs[ 3 ].v
+);
+</code></pre>
+
+<p>}</p>
+
+<p>}</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="nx">hasFaceNormal</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">faceNormal</span> <span class="o">=</span> <span class="nx">face</span><span class="p">.</span><span class="nx">normal</span><span class="p">;</span>
+        <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">faceNormal</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">faceNormal</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">faceNormal</span><span class="p">.</span><span class="nx">z</span> <span class="p">)</span> <span class="p">);</span>
+
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">hasFaceVertexNormal</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">vertexNormals</span> <span class="o">=</span> <span class="nx">face</span><span class="p">.</span><span class="nx">vertexNormals</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">isTriangle</span> <span class="p">)</span> <span class="p">{</span>
+
+          <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">z</span> <span class="p">),</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">z</span> <span class="p">),</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">z</span> <span class="p">)</span>
+          <span class="p">);</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+          <span class="nx">faces</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">0</span> <span class="p">].</span><span class="nx">z</span> <span class="p">),</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">1</span> <span class="p">].</span><span class="nx">z</span> <span class="p">),</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">2</span> <span class="p">].</span><span class="nx">z</span> <span class="p">),</span>
+            <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">3</span> <span class="p">].</span><span class="nx">x</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">3</span> <span class="p">].</span><span class="nx">y</span><span class="p">,</span> <span class="nx">vertexNormals</span><span class="p">[</span> <span class="mi">3</span> <span class="p">].</span><span class="nx">z</span> <span class="p">)</span>
+          <span class="p">);</span>
+
+        <span class="p">}</span>
+
+      <span class="p">}</span>
+
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">setBit</span><span class="p">(</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">position</span><span class="p">,</span> <span class="nx">enabled</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="k">return</span> <span class="nx">enabled</span> <span class="o">?</span> <span class="nx">value</span> <span class="o">|</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nx">position</span> <span class="p">)</span> <span class="o">:</span> <span class="nx">value</span> <span class="o">&amp;</span> <span class="p">(</span> <span class="o">~</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nx">position</span><span class="p">)</span> <span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">getNormalIndex</span><span class="p">(</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="nx">y</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="nx">z</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">normalsHash</span><span class="p">[</span> <span class="nx">hash</span> <span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="nx">normalsHash</span><span class="p">[</span> <span class="nx">hash</span> <span class="p">];</span>
+
+      <span class="p">}</span>
+
+      <span class="nx">normalsHash</span><span class="p">[</span> <span class="nx">hash</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">normals</span><span class="p">.</span><span class="nx">length</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
+      <span class="nx">normals</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">normalsHash</span><span class="p">[</span> <span class="nx">hash</span> <span class="p">];</span>
+
+    <span class="p">}</span>
+
+    <span class="nx">output</span><span class="p">.</span><span class="nx">vertices</span> <span class="o">=</span> <span class="nx">vertices</span><span class="p">;</span>
+    <span class="nx">output</span><span class="p">.</span><span class="nx">normals</span> <span class="o">=</span> <span class="nx">normals</span><span class="p">;</span>
+    <span class="nx">output</span><span class="p">.</span><span class="nx">uvs</span> <span class="o">=</span> <span class="nx">uvs</span><span class="p">;</span>
+    <span class="nx">output</span><span class="p">.</span><span class="nx">faces</span> <span class="o">=</span> <span class="nx">faces</span><span class="p">;</span>
+
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+<span class="p">};</span></div></div></div></div></body></html>

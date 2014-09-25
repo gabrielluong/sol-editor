@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/resources/users</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/resources/users"><meta name="groc-project-path" content="app/common/resources/users.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/resources/users.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: users.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">games</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;resource.users&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;ngResource&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;ngCookies&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;ui.router&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">games</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$cookies</span><span class="p">,</span> <span class="nx">$q</span><span class="p">,</span> <span class="nx">$state</span><span class="p">,</span> <span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">user</span> <span class="o">=</span> <span class="nx">$cookies</span><span class="p">.</span><span class="nx">user</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="nx">login</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">credentials</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/users/signin&#39;</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">logout</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/users/signout&#39;</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span> <span class="nx">res</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="nx">$state</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;auth.subs&#39;</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">},</span>
+
+    <span class="nx">verify</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">moveTo</span><span class="p">,</span> <span class="nx">unverifiedAllowed</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">$state</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="nx">moveTo</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="nx">$state</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span> <span class="nx">moveTo</span> <span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">$q</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/users/me&#39;</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span> <span class="nx">res</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span> <span class="o">=</span> <span class="p">(</span> <span class="nx">res</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">res</span> <span class="o">:</span> <span class="kc">null</span><span class="p">;</span>
+
+          <span class="k">if</span> <span class="p">(</span> <span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">$state</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="nx">moveTo</span> <span class="p">)</span> <span class="p">{</span>
+              <span class="nx">$state</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span> <span class="nx">moveTo</span> <span class="p">);</span>
+            <span class="p">}</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">unverifiedAllowed</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$state</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;auth.subs&#39;</span><span class="p">);</span>
+          <span class="p">}</span>
+
+          <span class="k">return</span> <span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">;</span>
+        <span class="p">}).</span><span class="nx">error</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span> <span class="nx">res</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">unverifiedAllowed</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$state</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;auth.subs&#39;</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">});</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">register</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">credentials</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span> <span class="nx">res</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">},</span>
+
+    <span class="nx">send_password_reset</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">email</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/password_reset&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">email</span><span class="o">:</span> <span class="nx">email</span> <span class="p">});</span>
+    <span class="p">},</span>
+
+    <span class="nx">currentUser</span><span class="o">:</span> <span class="p">(</span> <span class="nx">$cookies</span><span class="p">.</span><span class="nx">user</span> <span class="o">?</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">$cookies</span><span class="p">.</span><span class="nx">user</span> <span class="p">)</span> <span class="o">:</span> <span class="kc">null</span> <span class="p">),</span>
+
+    <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">!!</span><span class="nx">service</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="p">};</span>
+
+  <span class="nx">$cookies</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="nx">service</span><span class="p">;</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

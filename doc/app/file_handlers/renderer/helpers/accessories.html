@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><title>app/file_handlers/renderer/helpers/accessories</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/file_handlers/renderer/helpers/accessories"><meta name="groc-project-path" content="app/file_handlers/renderer/helpers/accessories.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/file_handlers/renderer/helpers/accessories.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>----SKWINTZ--------------------------------------------------------------- </p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">_cache</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;service.accessories&#39;</span><span class="p">,</span> <span class="p">[]);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span> <span class="s1">&#39;Accessories&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">Accessories</span> <span class="p">(</span><span class="nx">ctx</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">guid</span> <span class="o">=</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">guid</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">intersectionPlane</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span>
+      <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">PlaneGeometry</span><span class="p">(</span> <span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span> <span class="p">),</span>
+      <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshBasicMaterial</span><span class="p">({</span>
+        <span class="nx">wireframe</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span> <span class="nx">side</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">DoubleSide</span><span class="p">,</span> <span class="nx">visible</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+    <span class="p">);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Scene</span><span class="p">();</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">axis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">TransformControls</span><span class="p">(</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">camera</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">grid</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">GridHelper</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">grid</span><span class="p">.</span><span class="nx">setColors</span><span class="p">(</span><span class="mh">0xECECEC</span><span class="p">,</span> <span class="mh">0xE5E5E5</span><span class="p">);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">axis</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">grid</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">scene</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">intersectionPlane</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">Accessories</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">guid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">guid</span><span class="p">];</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">Accessories</span><span class="p">;</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">function</span> <span class="nx">SelectionAxis</span> <span class="p">(</span> <span class="nx">size</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">lineGeometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Geometry</span><span class="p">();</span>
+  <span class="kd">var</span> <span class="nx">headGeometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CylinderGeometry</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">);</span>
+
+  <span class="c1">//Invisible geometry for selecting axes</span>
+  <span class="kd">var</span> <span class="nx">selectionGeometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">CubeGeometry</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+
+  <span class="c1">//The object that will hold all of our other objects</span>
+  <span class="kd">var</span> <span class="nx">axis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Object3D</span><span class="p">();</span>
+
+  <span class="c1">//******** X SELECTION BOX</span>
+  <span class="kd">var</span> <span class="nx">selectionx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span><span class="nx">selectionGeometry</span><span class="p">);</span>
+  <span class="nx">selectionx</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="nx">selectionx</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="nx">selectionx</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;selx&quot;</span><span class="p">;</span>
+  <span class="nx">selectionx</span><span class="p">.</span><span class="nx">material</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">selectionx</span> <span class="p">);</span>
+
+  <span class="c1">//******** Y SELECTION BOX</span>
+  <span class="kd">var</span> <span class="nx">selectiony</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span><span class="nx">selectionGeometry</span><span class="p">);</span>
+  <span class="nx">selectiony</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="nx">selectiony</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;sely&quot;</span><span class="p">;</span>
+  <span class="nx">selectiony</span><span class="p">.</span><span class="nx">material</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">selectiony</span> <span class="p">);</span>
+
+  <span class="c1">//******** Z SELECTION BOX</span>
+  <span class="kd">var</span> <span class="nx">selectionz</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span><span class="nx">selectionGeometry</span><span class="p">);</span>
+  <span class="nx">selectionz</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="nx">selectionz</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="nx">selectionz</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;selz&quot;</span><span class="p">;</span>
+  <span class="nx">selectionz</span><span class="p">.</span><span class="nx">material</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">selectionz</span> <span class="p">);</span>
+
+  <span class="c1">//Add our selection boxes so we can raycast against it</span>
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">selectionBoxes</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span> <span class="nx">selectionx</span><span class="p">,</span> <span class="nx">selectiony</span><span class="p">,</span> <span class="nx">selectionz</span> <span class="p">);</span>
+
+  <span class="c1">//---------------------------------------------//</span>
+
+  <span class="nx">lineGeometry</span><span class="p">.</span><span class="nx">vertices</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="nx">size</span> <span class="o">||</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">),</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">size</span> <span class="o">||</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">),</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">size</span> <span class="o">||</span> <span class="mi">1</span> <span class="p">)</span>
+  <span class="p">);</span>
+
+  <span class="nx">lineGeometry</span><span class="p">.</span><span class="nx">colors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xff0000</span> <span class="p">),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xffaa00</span> <span class="p">),</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x00ff00</span> <span class="p">),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xaaff00</span> <span class="p">),</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x0000ff</span> <span class="p">),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x00aaff</span> <span class="p">)</span>
+  <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">lineMaterial</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">LineBasicMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">vertexColors</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">VertexColors</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="nx">lineMaterial</span><span class="p">.</span><span class="nx">depthTest</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">lineMaterial</span><span class="p">.</span><span class="nx">transparent</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Line</span><span class="p">(</span> <span class="nx">lineGeometry</span><span class="p">,</span> <span class="nx">lineMaterial</span><span class="p">,</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">LinePieces</span> <span class="p">);</span>
+    <span class="nx">lines</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">lines</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headxMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshBasicMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xD75B5B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="nx">headxMat</span><span class="p">.</span><span class="nx">depthTest</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">headxMat</span><span class="p">.</span><span class="nx">transparent</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">headx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headxMat</span> <span class="p">);</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">headx</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headx</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headyMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshBasicMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0xB2D75B</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="nx">headyMat</span><span class="p">.</span><span class="nx">depthTest</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">headyMat</span><span class="p">.</span><span class="nx">transparent</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">heady</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headyMat</span> <span class="p">);</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="nx">heady</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">heady</span> <span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">headzMat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshBasicMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Color</span><span class="p">(</span> <span class="mh">0x5B9ED7</span> <span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
+    <span class="nx">headzMat</span><span class="p">.</span><span class="nx">depthTest</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">headzMat</span><span class="p">.</span><span class="nx">transparent</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">headz</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">headGeometry</span><span class="p">,</span> <span class="nx">headzMat</span> <span class="p">);</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">headz</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">headz</span> <span class="p">);</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">axis</span> <span class="o">=</span> <span class="nx">axis</span><span class="p">;</span>
+
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">show</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">axis</span><span class="p">.</span><span class="nx">hide</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">axis</span><span class="p">;</span>
+<span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

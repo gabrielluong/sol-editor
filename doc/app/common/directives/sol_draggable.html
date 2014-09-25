@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/directives/sol_draggable</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/directives/sol_draggable"><meta name="groc-project-path" content="app/common/directives/sol_draggable.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/directives/sol_draggable.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.sol_draggable&#39;</span><span class="p">,</span> <span class="p">[]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;solDraggable&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">element</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;draggable&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">);</span>        
+
+      <span class="kd">var</span> <span class="nx">onDragStart</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">drag</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">onDragEnd</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">dragEnd</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dragstart&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">onDragStart</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">$element</span><span class="o">:</span> <span class="nx">element</span><span class="p">});</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dragend&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">onDragEnd</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">$element</span><span class="o">:</span> <span class="nx">element</span><span class="p">});</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;solDroppable&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>  
+      <span class="nx">element</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;draggable&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">);</span>  
+
+      <span class="kd">var</span> <span class="nx">onDragEnter</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">dragEnter</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">onDragOver</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">dragOver</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">onDragLeave</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">dragLeave</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dragenter&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">onDragEnter</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">$element</span><span class="o">:</span> <span class="nx">element</span><span class="p">});</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dragover&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">onDragOver</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">$element</span><span class="o">:</span> <span class="nx">element</span><span class="p">});</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dragleave&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">onDragLeave</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">$element</span><span class="o">:</span> <span class="nx">element</span><span class="p">});</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

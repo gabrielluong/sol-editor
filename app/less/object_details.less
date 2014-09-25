@@ -1,0 +1,199 @@
+@import 'variables.less';
+
+.objects-page.row  {
+  top: 60px;
+  bottom: 0px;
+
+  .objects-column-left {
+    // float: left;
+    // box-sizing: border-box;
+    // width: 80%;
+    right: 300px;
+    left: 0px;
+    overflow: auto;
+  }
+  .objects-column-right {
+    // float: right;
+    box-sizing: border-box;
+    overflow: auto;
+    width: 300px;
+    height: 100%;
+    right: 0px;
+    top: 1px;
+    padding: 0px 30px 30px 30px;
+    background-color: @light-grey;
+  }
+}
+
+.object-details {
+  padding: 10px 15px 0px 15px;
+}
+
+.object-detail {
+  width: 195px;
+  float: left;
+  background-color: #414141;
+  padding: 10px;
+  margin: 10px 15px 10px 15px;
+  position: relative;
+
+  .object-image {
+    height: 175px;
+    background-color: #E5E5E5;
+    line-height: 145px;
+    text-align: center;
+    overflow: hidden;
+
+    img {
+      vertical-align: top;
+      width: 100%;
+    }
+  }
+
+  .object-name {
+    color: #EFEFEF;
+    margin-top: 10px;
+    font-weight: 300;
+
+    &.shared {
+      color: red;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.object-hover-lightbox {
+  width: 195px;
+  height: 225px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #414141;
+  opacity: .8;
+  z-index: 100;
+}
+
+.objects-container {
+  .objects-header {
+    height: 40px;
+    width: 100%;
+    margin-top: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    .objects-title {
+      height: 100%;
+      float: left;
+      font-size: 2em;
+      color: #585858;
+
+      .objects-count {
+        background-color: #474747;
+        color: #EFEFEF;
+        padding: 0px 7px;
+        font-weight: 200;
+        font-size: .8em;
+      }
+    }
+
+    .new-object-button {
+      float: right;
+      float: right;
+      height: 40px;
+      color: white;
+      font-size: 1.3em;
+      background-color: @blue;
+      padding: 0px 25px;
+      line-height: 40px;
+    }
+  }
+}
+
+.object-hover-detail {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 195px;
+  height: 225px;
+  z-index: 200;
+  padding: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .hover-top {
+    height: 30px;
+    width: 100%;
+
+    .hover-object-name {
+      color: #EFEFEF;
+      font-weight: 400;
+      font-size: 1.3em;
+      background: none;
+      border: none;
+      width: 150px;
+      border-radius: 0px;
+
+      &:focus {
+        background-color: #EFEFEF;
+        color: #585858;
+      }
+    }
+    .hover-quick-play {
+      display: inline-block;
+      float: right;
+      margin-right: 2px;
+      margin-top: 3px;
+      color: #EFEFEF;
+      font-size: 1.3em;
+    }
+  }
+  .hover-middle {
+    height: 140px;
+    width: 100%;
+    line-height: 105px;
+    text-align: center;
+
+    .hover-scene-count {
+      background-color: #EFEFEF;
+      color: #585858;
+      padding: 3px 10px;
+      font-size: 1.4em;
+    }
+  }
+  .hover-bottom {
+    height: 40px;
+    width: 100%;
+    background-color: #414141;
+    color: #EFEFEF;
+    font-size: .9em;
+
+    .bottom-left {
+      float: left;
+
+      div:first-child {
+        font-weight: 300;
+      }
+    }
+
+    .bottom-right {
+      float: right;
+      height: 100%;
+      padding: 5px;
+      line-height: 40px;
+
+      span {
+        font-size: 1.6em;
+      }
+
+      span:first-child {
+        font-size: 1.4em;
+        margin-right: 10px;
+      }
+    }
+  }
+}

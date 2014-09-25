@@ -1,0 +1,13 @@
+<div class="pallette" ng-show="pallette.active">
+  <input class="pallette-search mousetrap" ng-model="pallette_search"/>
+
+  <div class="pallette-items">
+    <div ng-repeat="item in pallette.getFlattendItems() | filter:{title:pallette_search}" 
+         class="pallette-item"
+         ng-click="pallette.selectedIndex = $index; item.click($event);"
+         ng-class="{active: ($index === pallette.selectedIndex)}">
+      <div class="item-title">{{item.title}}</div>
+      <div class="item-description">{{item.description}}</div>
+    </div> 
+  </div>
+</div>

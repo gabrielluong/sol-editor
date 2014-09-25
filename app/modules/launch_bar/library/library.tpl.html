@@ -1,0 +1,45 @@
+<div class="file-tree">
+  <script type="text/ng-template"  id="tree_item_renderer.html">
+    <span class="gui-tree-item">
+      <span ng-if="(object.children.length > 0)" class="fa" ng-class="{'fa-angle-right': !object.open, 'fa-angle-down': object.open}"></span>
+      {{object.name}}
+      <ul ng-if="(object.children.length > 0)" ng-show="object.open">
+        <li ng-repeat="object in object.children | filter:{name:searchText}"
+            ng-include="'tree_item_renderer.html'"
+            class="gui-tree-item"
+            ng-class="{'directory': object.isDirectory}"
+            ng-click="$event.stopPropagation(); open(object);">
+        </li>
+      </ul>
+    </span>
+  </script>
+
+  <div class="selected-section">
+    <div class="section-header">
+      Library
+    </div>
+    <div class="section-search full-width-label-span">
+      <label class="fa fa-search"></label>
+      <span><input ng-model="searchText" /></span>
+    </div>
+  </div>
+
+  <div class="upper-bar">
+    <div class="toggle-buttons">
+      <div class="toggle-filesystem toggle"
+           ng-click="toggle_filesystem = !toggle_filesystem"
+           ng-class="{'selected': toggle_filesystem}">File System</div>
+      <div class="toggle-online toggle"
+           ng-click="toggle_online = !toggle_online"
+           ng-class="{'selected': toggle_online}">Online</div>
+    </div>
+  </div>
+
+  <ul>
+    <li ng-repeat="object in getObjects()"
+        ng-include="'tree_item_renderer.html'"
+        ng-class="{'directory': (file.children.length > 0)}"
+        ng-click="$event.stopPropagation(); open(object);"
+        ></li>
+  </ul>
+</div>

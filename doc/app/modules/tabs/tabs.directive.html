@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/tabs/tabs.directive</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/modules/tabs/tabs.directive"><meta name="groc-project-path" content="app/modules/tabs/tabs.directive.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/tabs/tabs.directive.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">drop</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">tabbar</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.tabbar&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.tabs&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.signals&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;templates&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.sol_draggable&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.resizer&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">tabbar</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;tabbar&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Tabs</span><span class="p">,</span> <span class="nx">Signals</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;EA&#39;</span><span class="p">,</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tabs</span><span class="o">:</span> <span class="s1">&#39;=data&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/tabs/tabbar.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">replace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">postLink</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">ondragover</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$event</span><span class="p">,</span> <span class="nx">$element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">parentOffset</span> <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">offset</span><span class="p">();</span>
+
+        <span class="kd">var</span> <span class="nx">relX</span> <span class="o">=</span> <span class="nx">$event</span><span class="p">.</span><span class="nx">pageX</span> <span class="o">-</span> <span class="nx">parentOffset</span><span class="p">.</span><span class="nx">left</span><span class="p">;</span>
+
+        <span class="kd">var</span> <span class="nx">tabs</span> <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">children</span><span class="p">(</span><span class="s1">&#39;.tab&#39;</span><span class="p">);</span>
+
+        <span class="kd">var</span> <span class="nx">currIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">currDist</span> <span class="o">=</span> <span class="kc">Infinity</span><span class="p">,</span> <span class="nx">closestElm</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">tabs</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">drop</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="nx">attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+            <span class="nx">index</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nx">side</span><span class="o">:</span> <span class="mi">1</span>
+          <span class="p">};</span>
+
+          <span class="nx">$element</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;insert-tab-indicator-left&#39;</span><span class="p">);</span>
+
+          <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">tabs</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span> <span class="o">-</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">dist</span> <span class="o">=</span> <span class="nx">left</span> <span class="o">-</span> <span class="nx">relX</span><span class="p">;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">dist</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">currDist</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">currIndex</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span>
+            <span class="nx">currDist</span> <span class="o">=</span> <span class="nx">dist</span><span class="p">;</span>
+            <span class="nx">closestElm</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">});</span>
+
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.tab, .tabbar&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;insert-tab-indicator-left insert-tab-indicator-right&#39;</span><span class="p">);</span>
+
+        <span class="nx">drop</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="nx">name</span><span class="o">:</span> <span class="nx">attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+          <span class="nx">index</span><span class="o">:</span> <span class="nx">currIndex</span>
+        <span class="p">};</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">currDist</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">closestElm</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;insert-tab-indicator-left&#39;</span><span class="p">);</span>
+          <span class="nx">drop</span><span class="p">.</span><span class="nx">side</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">closestElm</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;insert-tab-indicator-right&#39;</span><span class="p">);</span>
+          <span class="nx">drop</span><span class="p">.</span><span class="nx">side</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">ondragstart</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$event</span><span class="p">,</span> <span class="nx">$element</span><span class="p">,</span> <span class="nx">$index</span><span class="p">,</span> <span class="nx">tabs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">tabs</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">$index</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">ondragend</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$event</span><span class="p">,</span> <span class="nx">$element</span><span class="p">,</span> <span class="nx">$index</span><span class="p">,</span> <span class="nx">tabs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.tab, .tabbar&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;insert-tab-indicator-left insert-tab-indicator-right&#39;</span><span class="p">);</span>
+        <span class="nx">tabs</span><span class="p">.</span><span class="nx">swap</span><span class="p">(</span><span class="nx">$index</span><span class="p">,</span> <span class="nx">drop</span><span class="p">);</span>
+
+        <span class="nx">drop</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">tabcontainer</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.tabcontainer&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.tabs&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.signals&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.tabcontainer&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">tabcontainer</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;tabcontainer&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">$rootScope</span><span class="p">,</span>
+    <span class="nx">Tabs</span><span class="p">,</span> <span class="nx">$http</span><span class="p">,</span> <span class="nx">$templateCache</span><span class="p">,</span> <span class="nx">$compile</span><span class="p">,</span> <span class="nx">TabContainer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">bindings</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;command+shift+right&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;command+shift+left&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;command+shift+up&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;command+shift+down&#39;</span><span class="p">,</span>
+  <span class="p">];</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/tabs/tabcontainer.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">postLink</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span> <span class="o">=</span> <span class="nx">TabContainer</span><span class="p">;</span>
+
+      <span class="nx">Mousetrap</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">bindings</span><span class="p">,</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">combo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">switch</span><span class="p">(</span><span class="nx">combo</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">case</span> <span class="s1">&#39;command+shift+right&#39;</span><span class="o">:</span>
+            <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="s1">&#39;command+shift+left&#39;</span><span class="o">:</span>
+            <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span><span class="p">.</span><span class="nx">splitRight</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="s1">&#39;command+shift+up&#39;</span><span class="o">:</span>
+            <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="s1">&#39;command+shift+down&#39;</span><span class="o">:</span>
+            <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span><span class="p">.</span><span class="nx">splitDown</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">scope</span><span class="p">.</span><span class="nx">$$phase</span><span class="p">)</span> <span class="p">{</span><span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>must come after scope.$apply()</p></div></div><div class="code"><div class="wrapper">        <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;view.resize&#39;</span><span class="p">);</span>
+      <span class="p">}).</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">select</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$event</span><span class="p">,</span> <span class="nx">child</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">child</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">scope</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">$event</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+          <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">tabContainer</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">randomBackground</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">color</span> <span class="o">=</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">().</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;000000&#39;</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;background-color&#39;</span><span class="o">:</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">color</span><span class="p">};</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">renderTab</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$index</span><span class="p">,</span> <span class="nx">tab</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">templateUrl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cache</span><span class="o">:</span> <span class="nx">$templateCache</span> <span class="p">}</span> <span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">response</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">children</span><span class="p">(</span><span class="s1">&#39;.tabcontainer[index=&quot;&#39;</span> <span class="o">+</span> <span class="nx">$index</span> <span class="o">+</span> <span class="s1">&#39;&quot;]&#39;</span><span class="p">);</span>
+
+          <span class="nx">el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span> <span class="p">);</span>
+          <span class="nx">el</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;$ngControllerController&#39;</span><span class="p">,</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">controller</span><span class="p">);</span>
+
+          <span class="nx">$compile</span><span class="p">(</span> <span class="nx">el</span><span class="p">.</span><span class="nx">contents</span><span class="p">()</span> <span class="p">)(</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">scope</span> <span class="p">);</span>
+        <span class="p">});</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">tabcontainer</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;tabContainerItem&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Tabs</span><span class="p">,</span> <span class="nx">$http</span><span class="p">,</span> <span class="nx">$templateCache</span><span class="p">,</span> <span class="nx">$compile</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">postLink</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">tab</span><span class="p">.</span><span class="nx">templateUrl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cache</span><span class="o">:</span> <span class="nx">$templateCache</span> <span class="p">}</span> <span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">response</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span> <span class="p">);</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;$ngControllerController&#39;</span><span class="p">,</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">tab</span><span class="p">.</span><span class="nx">controller</span><span class="p">);</span>
+
+        <span class="nx">$compile</span><span class="p">(</span> <span class="nx">element</span><span class="p">.</span><span class="nx">contents</span><span class="p">()</span> <span class="p">)(</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">tab</span><span class="p">.</span><span class="nx">scope</span> <span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

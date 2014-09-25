@@ -1,0 +1,12 @@
+<div class="state-display">
+  <div class="movement-type {{renderer.state}}">
+    {{renderer.state}}
+  </div>
+  <div class="play-edit"
+       ng-click="renderer.playMode = !renderer.playMode"
+       ng-class="{'play': (renderer.playMode),
+                  'edit': (!renderer.playMode)}">
+    <span ng-if="renderer.playMode">Play</span>
+    <span ng-if="!renderer.playMode">Edit</span>
+  </div>
+</div>

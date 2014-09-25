@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/modules</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="app/modules/modules"><meta name="groc-project-path" content="app/modules/modules.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/modules.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
+    <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">packages</span> <span class="o">=</span> <span class="nx">global</span><span class="p">.</span><span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;__packages__&#39;</span><span class="p">,</span> <span class="p">[]);</span>
+
+<span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;sol.packages&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.pallette&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.files&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.keyboard&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>we need to create packages specially to be able to add providers at runtime
+NOTE: can do same thing with "filter" and $filterProvider</p></div></div><div class="code"><div class="wrapper"><span class="nx">packages</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">$controllerProvider</span><span class="p">,</span> <span class="nx">$provide</span><span class="p">,</span> <span class="nx">$compileProvider</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">_controller</span> <span class="o">=</span> <span class="nx">packages</span><span class="p">.</span><span class="nx">controller</span><span class="p">;</span>
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">_service</span> <span class="o">=</span> <span class="nx">packages</span><span class="p">.</span><span class="nx">service</span><span class="p">;</span>
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">_factory</span> <span class="o">=</span> <span class="nx">packages</span><span class="p">.</span><span class="nx">factory</span><span class="p">;</span>
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">_value</span> <span class="o">=</span> <span class="nx">packages</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">_directive</span> <span class="o">=</span> <span class="nx">packages</span><span class="p">.</span><span class="nx">directive</span><span class="p">;</span>
+
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">controller</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">constructor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$controllerProvider</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">constructor</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">service</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$provide</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">service</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">factory</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">factory</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$provide</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">factory</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$provide</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">packages</span><span class="p">.</span><span class="nx">directive</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">factory</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$compileProvider</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">factory</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">&#39;Packages&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">Pallette</span><span class="p">,</span> <span class="nx">File</span><span class="p">,</span> <span class="nx">__keyboard</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//FIXME: only use for development!</span>
+  <span class="c1">//TODO: remove for production!</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">global</span><span class="p">.</span><span class="nx">require</span><span class="p">.</span><span class="nx">cache</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">global</span><span class="p">.</span><span class="nx">require</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="nx">global</span><span class="p">.</span><span class="nx">require</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Loads the packages</p></div></div><div class="code"><div class="wrapper">  <span class="k">this</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">ensureFoldersExist</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">loadJs</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">initCommands</span><span class="p">();</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Makes sure that the folders needed for packages exist in ~/.sol</p></div></div><div class="code"><div class="wrapper">  <span class="k">this</span><span class="p">.</span><span class="nx">ensureFoldersExist</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO: fix this to be more robust (a user might delete default on accidnet)</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span><span class="p">,</span> <span class="mi">0766</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO: better error handling is needed herer</p></div></div><div class="code"><div class="wrapper">          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+
+      <span class="nx">copyRecursiveSync</span><span class="p">(</span>
+          <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">FILE_DIR</span> <span class="o">+</span> <span class="s1">&#39;/defaults/packages&#39;</span><span class="p">,</span>
+          <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span> <span class="o">+</span> <span class="s1">&#39;/packages&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Loads the index.html script from each of our packages if there is one</p></div></div><div class="code"><div class="wrapper">  <span class="k">this</span><span class="p">.</span><span class="nx">loadJs</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">getSubDirs</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span> <span class="o">+</span> <span class="s1">&#39;/packages&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="nx">dirs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">dir</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fullDir</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span> <span class="o">+</span> <span class="s1">&#39;/packages/&#39;</span> <span class="o">+</span> <span class="nx">dir</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">full_files</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">getFilesFromDir</span><span class="p">(</span><span class="nx">fullDir</span><span class="p">);</span>
+
+      <span class="nx">full_files</span> <span class="o">=</span> <span class="nx">full_files</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+          <span class="nx">root</span><span class="o">:</span> <span class="nx">fullDir</span><span class="p">,</span>
+          <span class="nx">name</span><span class="o">:</span> <span class="nx">file</span>
+        <span class="p">};</span>
+      <span class="p">});</span>
+
+      <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">push</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">full_files</span><span class="p">);</span>
+    <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO: make this configurable (i.e. dont have to use index.js)</p></div></div><div class="code"><div class="wrapper">    <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">file</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;index.js&#39;</span>
+    <span class="p">});</span>
+
+    <span class="nx">files</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">require</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">root</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Loads the .json config files from each module and passes them to handlers</p></div></div><div class="code"><div class="wrapper">  <span class="k">this</span><span class="p">.</span><span class="nx">initCommands</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pallette</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pallette</span><span class="p">(</span><span class="s1">&#39;actions&#39;</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">getSubDirs</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span> <span class="o">+</span> <span class="s1">&#39;/packages&#39;</span><span class="p">);</span>
+
+    <span class="nx">dirs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">dir</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fullDir</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">SOL_DIR</span> <span class="o">+</span> <span class="s1">&#39;/packages/&#39;</span> <span class="o">+</span> <span class="nx">dir</span><span class="p">;</span>
+
+      <span class="kd">var</span> <span class="nx">pallette_commands</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span>
+        <span class="nx">fullDir</span><span class="p">,</span> <span class="s1">&#39;pallette_commands.json&#39;</span><span class="p">);</span>
+
+      <span class="kd">var</span> <span class="nx">keybindings</span> <span class="o">=</span> <span class="nx">File</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span>
+        <span class="nx">fullDir</span><span class="p">,</span> <span class="s1">&#39;keybindings.json&#39;</span><span class="p">);</span>
+
+      <span class="nx">pallette</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">pallette_commands</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+      <span class="nx">__keyboard</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">keybindings</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

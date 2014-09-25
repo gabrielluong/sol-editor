@@ -1,0 +1,13 @@
+<div class="section-tags cf">
+  <div class="section-tag"
+        ng-repeat="tag in tags">
+    {{tag}}
+
+    <span class="section-tag-delete fa fa-times"
+          ng-click="removeTag($index)"></span>
+  </div>
+
+  <input ng-keypress="handleKeypress($event)"
+         ng-model="currentTag"
+         placeholder="type to add tag"/>
+</div>

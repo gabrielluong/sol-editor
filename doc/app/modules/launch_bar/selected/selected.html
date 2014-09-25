@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/launch_bar/selected/selected</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/modules/launch_bar/selected/selected"><meta name="groc-project-path" content="app/modules/launch_bar/selected/selected.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/launch_bar/selected/selected.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;sol.launch_bar.selected&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.renderer&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;factory.script_events&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;mgcrea.ngStrap.select&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.round_number&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.section_tags&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span> <span class="s1">&#39;sol.launch_bar.selected&#39;</span><span class="p">,</span>
+  <span class="kd">function</span> <span class="nx">SelectedController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">Renderer</span><span class="p">,</span> <span class="nx">$timeout</span><span class="p">,</span> <span class="nx">script_events</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">renderer</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">script_events</span> <span class="o">=</span> <span class="nx">script_events</span><span class="p">;</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="s1">&#39;guid&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$timeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$scope</span><span class="p">.</span><span class="nx">renderer</span> <span class="o">=</span> <span class="nx">Renderer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="s1">&#39;renderer.selected&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">selected</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">addScript</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">selected</span> <span class="o">=</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">selected</span><span class="p">;</span>
+
+    <span class="nx">selected</span><span class="p">.</span><span class="nx">scripts</span><span class="p">.</span><span class="nx">unshift</span><span class="p">({</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;New Script&#39;</span><span class="p">,</span>
+      <span class="nx">file</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="nx">event</span><span class="o">:</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">script_events</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">chooseFile</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">script</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;file&quot;/&gt;&#39;</span><span class="p">);</span>
+
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+
+      <span class="nx">_chose</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">);</span>
+
+    <span class="kd">function</span> <span class="nx">_chose</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">script</span><span class="p">.</span><span class="nx">file</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">getFileName</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">file</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;No File&#39;</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">splits</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">splits</span><span class="p">[</span><span class="nx">splits</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

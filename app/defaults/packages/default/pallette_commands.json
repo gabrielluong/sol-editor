@@ -1,0 +1,9 @@
+{
+  "commands": [
+    {
+      "title": "Settings - User: Open",
+      "description": "",
+      "command": "DEF_FUNCS[open_user_settings]"
+    }
+  ]
+}

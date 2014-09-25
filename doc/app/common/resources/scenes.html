@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/resources/scenes</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/common/resources/scenes"><meta name="groc-project-path" content="app/common/resources/scenes.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/resources/scenes.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">scenes</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;resource.scenes&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;ngResource&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">scenes</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Scene&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$q</span><span class="p">,</span> <span class="nx">$resource</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">resource</span> <span class="o">=</span> <span class="nx">$resource</span><span class="p">(</span><span class="s1">&#39;/api/games/:game_id/scenes/:id/:action&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;@sid&#39;</span><span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">create</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span>
+      <span class="p">},</span>
+      <span class="nx">update</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;PUT&#39;</span><span class="p">,</span>
+        <span class="nx">params</span><span class="o">:</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;@sid&#39;</span><span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nx">file</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+        <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">action</span><span class="o">:</span> <span class="s1">&#39;file&#39;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+
+  <span class="nx">resource</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">saveFile</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">attr</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/api/games/&#39;</span> <span class="o">+</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">game_id</span> <span class="o">+</span> <span class="s1">&#39;/scenes/&#39;</span> <span class="o">+</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;/file&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">file</span><span class="o">:</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">file</span><span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">resource</span><span class="p">;</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

@@ -1,0 +1,45 @@
+@import '../../less/variables.less';
+
+.pallette {
+  width: 400px;
+  height: 300px;
+  background-color: @charcoal;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  margin-left: -200px;
+  z-index: 1000;
+
+  input {
+    height: 30px;
+    width: 100%;
+    padding: 4px 10px;
+    box-sizing: border-box;
+    background-color: #343434;
+    border: none;
+    color: #EFEFEF;
+    font-size: 1.2em;
+  }
+
+  .pallette-items {
+    overflow: auto;
+    height: 270px;
+
+    .pallette-item {
+      padding: 5px 10px;
+
+      &.active {
+        background-color: #575757;
+      }
+
+      .item-title {
+        color: #EFEFEF;
+        font-size: 1.4em; 
+      }
+
+      .item-description {
+        color: #999;
+      }
+    }
+  }
+}

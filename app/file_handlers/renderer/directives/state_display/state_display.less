@@ -1,0 +1,42 @@
+@import "../../../../less/variables.less";
+
+.state-display {
+  font-size: 1.2em;
+  position: absolute;
+  bottom: 0px;
+  color: #EFEFEF;
+
+  .movement-type {
+    float: left;
+    padding: 5px 10px;
+
+    &.translate {
+      background-color: @blue;
+    }
+
+    &.scale {
+      background-color: @green;
+    }
+
+    &.rotate {
+      background-color: @red;
+    }
+
+    &.view {
+      background-color: @charcoal;
+    }
+  }
+
+  .play-edit {
+    padding: 5px 10px;
+    float: left;
+
+    &.play {
+      background-color: @charcoal;
+    }
+
+    &.edit {
+      background-color: @red;
+    }
+  }
+}

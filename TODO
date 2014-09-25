@@ -1,0 +1,105 @@
+  QUEUE:
+ ☐ select by tags
+ ☐ add screen for files that we dont know how to handle
+ ☐ remove console
+ ☐ add search bar that can find anythign (probably a pallette)
+ ☐ set window title to current open file
+ ☐ ability to manipulate children of objects (add, remove)
+ ☐ add clone stuff for all physijs objects (sphere and box done)
+
+REFACTOR OPPORTUNITIES:
+
+
+ BUGS:
+ ☐ bug where if you open the file pallette then command pallet and hit enter it will open file under the cursor in the file pallette :} @bug
+ ☐ Accessories are created twice for each scene loaded (once on init second when json is parsed) @bug
+ ☐ pallette need to move active pallette to top of page ALWAYS the file can get stuck behind actions @bug
+ ☐ fix bug with launch bar divs @bug
+     select files library and selected launch bar items then close and re-open the library it wont show up in first place.
+ ☐ fix how when hovering over items in the library module, the parent is also highlighted @bug
+
+BACKLOG:
+ ☐ play mode
+ ☐ multiple windows
+ ☐ tabbable windows (different file controllers could specify the data that they need to transfer && expose global functions to talk to each other)
+ ☐ delete multiple object functionality
+ ☐ duplicate multiple object functionality
+ ☐ add position, rotation, scale, name to selection module
+ ☐ create module with general editor settings (fps, scene graph, global/local axis)
+ ☐ fix box select
+ ☐ moving/scaling/rotation with multiple selected
+ ☐ finish library module (hook up github back end as well as looking through local project files)
+ ☐ key commands for moving/rotating/scaling
+ ☐ add context menu to file tree
+ ☐ ability to use same scene in multiple views (if you have two views with the same scene use same object for both so both are updated)
+ ☐ file needs save indicator
+ ☐ fix default text for selected script event dropdown
+ ☐ dblclick without an object should center to 0,0,0??
+ ☐ remove SIGNALS and use $emit
+ ☐ make tab overflow work
+ ☐ configurable key commands
+ ☐ command line launch
+ ☐ add 4 screen different perspectives button
+ ☐ scene composer (create node graph of scene linkage)
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ saving is broken @bug @done (14-08-15 18:37)
+ ✔ create console @done (14-08-18 16:23)
+ ✔ allow pallette click events to return a promise (async) or more list items @done (14-08-13 23:50)
+ ✔ create events.json inside plugins @done (14-08-13 23:49)
+ ✔ allow nested launch bar modules @done (14-08-13 23:49)
+ ✔ config files @done (14-08-05 15:58)
+ ✔ ability to install plugins @done (14-08-03 22:09)
+  should have key command json file to map key combos to commands
+  create sane api
+  create 'default' plugin
+ ✔ history @done (14-07-31 23:04)
+ ✔ axis needs to resize when zooming in/out @done (14-07-31 21:10)
+ ✔ double click on object centers to it @done (14-07-31 21:05)
+ ✔ add window changed event to pane resize @done (14-07-31 00:28) @project(BACKLOG)
+ ✔ when two panes are open, the object selection doesnt work anymore @bug @done (14-07-31 00:25)
+ ✔ currently, clicking the navigator moves all split panes @bug @done (14-07-31 00:25)
+ ✔ when splitting the screen, events for controls aren't passed over to new div that contains the renderer, so after splitting the screen the transformControls doesnt work @bug @done (14-07-31 00:21)
+ ✔ clicking on axis will close it if not on object @bug @done (14-07-31 00:19)
+ ✔ add ability to attach scripts to object @done (14-07-30 21:22)
+ ✔ fix controls @done (14-07-28 23:04)
+ ✔ get rid of the damn "Uncaught TypeError: Cannot call method 'clear' of undefined" error @done (14-07-28 22:07)
+ ✔ delete renderer instances after closing tab @done (14-07-28 22:07)
+ ✔ add scaling && scale helper @done (14-07-27 21:19)
+ ✔ add rotations && rotation helper @done (14-07-27 21:19)
+ ✔ double click dividers moves to middle @done (14-07-25 00:40)
+ ✔ fix dragging between tab bars @done (14-07-25 00:36)
+ ✔ add functionality to split the screen into columns and rows @done (14-07-25 00:06) @project(BACKLOG)
+ ✔ make new resizer directive for between launch bar views @done (14-07-25 00:05)
+ ✔ unsaved changes indicator @done (14-06-15 01:02)
+ ✔ close file listeners @done (14-06-10 22:42) @project(BACKLOG)
+ ✔ add event "onMainViewResize" that the file_handlers can respond to @done (14-06-10 22:42)
+ ✔ remove jquery-ui and ui-layout (BOOCHA) @done (14-06-10 21:41)
+ ✔ fix title bar @done (14-06-08 21:02) @project(BACKLOG)
+ ✔ fix get directory contents function in file service (I think that it will need to append the file path on recursion) @done (14-06-08 21:02) @project(BACKLOG)
+ ✔ move adding launch bar items to file handlers @done (14-06-08 21:01)
+ ✔ add functionality for json file type (renderer) (also make sure to think about the abilty for other file types as well) @done (14-06-08 21:01) @project(BACKLOG)
+  on file type should have one controller and one view to render it, passing along the needed data
+ ✔ watch files that are opened & watch directories that are being watched @done (14-06-08 20:54)
+ ✔ add file lookup to command pallette on cmd + t @done (14-06-08 20:54)
+ ✔ find way for everything to be connected @done (14-06-08 19:52)
+ ✔ add command pallette @done (14-06-08 19:52)
+ ✔ remove logo as button (its only for looks now) @done (14-06-02 22:56) @project(BACKLOG)
+ ✔ make "changes saved indicator work" @done (14-06-02 22:56) @project(BACKLOG)
+ ✔ fix view navigator @done (14-06-02 22:56) @project(BACKLOG)
+ ✔ add to file service to write correct templateUrl's and controllers for differeent file types @done (14-06-01 15:21)
+ ✔ add funcitonality to file service to write default files @done (14-06-01 15:21)
+ ✔ saving files @done (14-05-30 12:49)
+ ✔ save as (for new files) @done (14-05-30 12:49)
+ ✔ add functionality to open a new tab without a file saved @done (14-05-30 12:49)
+ ✔ style file tree @done (14-05-29 23:50)
+ ✔ change tab to have sub-directives similar to launch bar @done (14-05-29 23:06)
+ ✔ change tab renderTab to just render @done (14-05-29 23:06)
+ ✔ move library to bottom bar & find out what other buttons will be down there @done (14-05-29 23:02) @project(BACKLOG)
+ ✔ add play/edit buttons to bottom bar (only view when in render mode) @done (14-05-29 23:01)
+ ✔ fix the sidebar @done (14-05-29 22:35)
+ ✔ move launch bars to directive & service @done (14-05-29 18:56)
+ ✔ move file tree to sidebar @done (14-05-29 18:56)
+ ✔ rename vertical_launch_bar and main_view and edit @done (14-05-29 17:33)
+ ✔ redo folder structure @done (14-05-29 17:33)

@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/scaffold/scaffold</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/modules/scaffold/scaffold"><meta name="groc-project-path" content="app/modules/scaffold/scaffold.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/scaffold/scaffold.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;sol.scaffold&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;ui.router&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;resource.scenes&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;mgcrea.ngStrap.tooltip&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sol.header&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sol.file_handler.renderer&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.tabs&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.launch_bar&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.launch_bar&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sol.launch_bar.selected&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sol.launch_bar.file_tree&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sol.launch_bar.library&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.tabcontainer&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;directive.pallette&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.pallette&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span> <span class="nx">config</span><span class="p">(</span> <span class="nx">$stateProvider</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$stateProvider</span><span class="p">.</span><span class="nx">state</span><span class="p">(</span> <span class="s1">&#39;scaffold&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="kr">abstract</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+    <span class="nx">views</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;main&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;sol.scaffold&#39;</span><span class="p">,</span>
+        <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/scaffold/scaffold.tpl.html&#39;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">data</span><span class="o">:</span><span class="p">{</span> <span class="nx">pageTitle</span><span class="o">:</span> <span class="s1">&#39;Edit&#39;</span> <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="nx">$stateProvider</span><span class="p">.</span><span class="nx">state</span><span class="p">(</span> <span class="s1">&#39;scaffold.subs&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">views</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;header@scaffold&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;sol.header&#39;</span><span class="p">,</span>
+        <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/header/header.tpl.html&#39;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span> <span class="s1">&#39;sol.scaffold&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">EditViewController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">Tabs</span><span class="p">,</span> <span class="nx">LaunchBar</span><span class="p">,</span> <span class="nx">Pallette</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tabs</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Tabs</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">);</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">actions_pallette</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pallette</span><span class="p">(</span><span class="s1">&#39;actions&#39;</span><span class="p">);</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">files_pallette</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pallette</span><span class="p">(</span><span class="s1">&#39;files&#39;</span><span class="p">);</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">actions_pallette</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;actions.scaffold&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">{</span><span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;ding&#39;</span><span class="p">,</span> <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;bingbingbing wingaling bingadaring&#39;</span><span class="p">,</span> <span class="nx">click</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">);</span>
+    <span class="p">}}</span>
+  <span class="p">]);</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">vertical_launchbar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LaunchBar</span><span class="p">(</span><span class="s1">&#39;veritcal&#39;</span><span class="p">,</span> <span class="s1">&#39;vertical&#39;</span><span class="p">);</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">horizontal_launchbar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LaunchBar</span><span class="p">(</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">);</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">vertical_launchbar</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Files&#39;</span><span class="p">,</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="s1">&#39;fa-file&#39;</span><span class="p">,</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/launch_bar/file_tree/file_tree.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;sol.launch_bar.file_tree&#39;</span><span class="p">,</span>
+    <span class="nx">size</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nx">forceVisible</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">}).</span><span class="nx">add</span><span class="p">({</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Selected&#39;</span><span class="p">,</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="s1">&#39;fa-bullseye&#39;</span><span class="p">,</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/launch_bar/selected/selected.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;sol.launch_bar.selected&#39;</span>
+  <span class="p">}).</span><span class="nx">add</span><span class="p">({</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Library&#39;</span><span class="p">,</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="s1">&#39;fa-book&#39;</span><span class="p">,</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/launch_bar/library/library.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;sol.launch_bar.library&#39;</span><span class="p">,</span>
+    <span class="nx">size</span><span class="o">:</span> <span class="mi">200</span>
+  <span class="p">});</span>
+
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tabs</span><span class="p">.</span><span class="nx">signals</span><span class="p">.</span><span class="nx">onSelected</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">tab</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">selectedController</span> <span class="o">=</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">controller_name</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

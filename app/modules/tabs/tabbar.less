@@ -1,0 +1,92 @@
+@import "../../less/variables.less";
+
+.tabbar {
+  display: flex;
+  min-height: 30px;
+  background-color: @charcoal;
+
+  &.entered {
+    background-color: red;
+  }
+}
+
+.tab {
+  color: white;
+  padding: 5px 8px;
+  height: 30px;
+  line-height: 20px;
+  display: block;
+  float: left;
+  text-align: center;
+  box-sizing: border-box;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.active {
+    background-color: #777;
+  }
+
+  .remove-tab {
+    margin-left: 10px;
+    color: #CCC;
+
+    &.hasChanges {
+      color: @red;
+    }
+
+    &:hover {
+      color: #FFF;
+    }
+  }
+
+  .tab-title {
+  }
+
+  .over {
+    border-right: 2px solid blue;
+  }
+}
+
+.insert-tab-indicator-left {
+  border-left: 2px solid @blue;
+}
+
+.insert-tab-indicator-right {
+  border-right: 2px solid @blue;
+}
+
+tabcontainer {
+  display: flex;
+  flex: 1;
+
+  .tab-container {
+    display: flex;
+    flex: 1;
+
+    &.selected {
+      .tabbar {
+        background-color: #575757;
+      }
+    }
+  }
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.resizer-c {
+  height: 2px;
+  background-color: #232323;
+}
+
+.resizer-r {
+  width: 2px;
+  background-color: #232323;
+}

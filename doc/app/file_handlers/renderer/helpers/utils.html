@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><title>app/file_handlers/renderer/helpers/utils</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/file_handlers/renderer/helpers/utils"><meta name="groc-project-path" content="app/file_handlers/renderer/helpers/utils.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/file_handlers/renderer/helpers/utils.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>----SKWINTZ--------------------------------------------------------------- </p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">projector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Projector</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">ray</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Raycaster</span><span class="p">();</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;renderer.utils&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.signals&#39;</span>
+<span class="p">]);</span>
+
+<span class="kd">function</span> <span class="nx">Module</span> <span class="p">(</span><span class="nx">Signals</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">Utils</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getIntersectsFromClick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">objects</span><span class="p">){</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getIntersectsFromCoords</span><span class="p">(</span>
+        <span class="p">(</span> <span class="p">(</span> <span class="nx">x</span> <span class="o">-</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span> <span class="p">)</span> <span class="o">/</span> <span class="nx">el</span><span class="p">.</span><span class="nx">width</span><span class="p">()</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">-</span><span class="p">(</span> <span class="p">(</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span> <span class="p">)</span> <span class="o">/</span> <span class="nx">el</span><span class="p">.</span><span class="nx">height</span><span class="p">()</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">objects</span>
+      <span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">getIntersectsFromCoords</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">objects</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span>
+        <span class="nx">x</span><span class="p">,</span>
+        <span class="nx">y</span><span class="p">,</span>
+        <span class="mf">0.5</span>
+      <span class="p">);</span>
+
+      <span class="nx">projector</span><span class="p">.</span><span class="nx">unprojectVector</span><span class="p">(</span><span class="nx">vector</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">);</span>
+
+      <span class="nx">ray</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">,</span> <span class="nx">vector</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">).</span><span class="nx">normalize</span><span class="p">());</span>
+
+      <span class="k">return</span> <span class="nx">ray</span><span class="p">.</span><span class="nx">intersectObjects</span><span class="p">(</span><span class="nx">objects</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">runOnAllSelectedObjects</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">__allSelected</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">__allSelected</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">worldRotation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">rotationMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Matrix4</span><span class="p">().</span><span class="nx">extractRotation</span><span class="p">(</span> <span class="nx">object</span><span class="p">.</span><span class="nx">matrixWorld</span> <span class="p">);</span>
+
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Quaternion</span><span class="p">().</span><span class="nx">setFromRotationMatrix</span><span class="p">(</span> <span class="nx">rotationMatrix</span> <span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">worldPosition</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">object</span><span class="p">.</span><span class="nx">parent</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">object</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">clone</span><span class="p">().</span><span class="nx">applyMatrix4</span><span class="p">(</span> <span class="nx">object</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">matrixWorld</span> <span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">rotateWorld</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">object</span><span class="p">,</span> <span class="nx">axis</span><span class="p">,</span> <span class="nx">angle</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">quat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Quaternion</span><span class="p">();</span>
+
+      <span class="nx">quat</span><span class="p">.</span><span class="nx">setFromAxisAngle</span><span class="p">(</span> <span class="nx">axis</span><span class="p">,</span> <span class="nx">angle</span> <span class="p">);</span>
+      <span class="nx">object</span><span class="p">.</span><span class="nx">quaternion</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span> <span class="nx">quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">quaternion</span><span class="p">)</span> <span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">rotateOnAxis</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">object</span><span class="p">,</span> <span class="nx">axis</span><span class="p">,</span> <span class="nx">angle</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">_q1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Quaternion</span><span class="p">();</span>
+
+      <span class="nx">_q1</span><span class="p">.</span><span class="nx">setFromAxisAngle</span><span class="p">(</span> <span class="nx">axis</span><span class="p">,</span> <span class="nx">angle</span> <span class="p">);</span>
+      <span class="nx">object</span><span class="p">.</span><span class="nx">quaternion</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span> <span class="nx">_q1</span> <span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">getMouseRayPoint</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">object</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">intersectionPlane</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">accessories</span><span class="p">.</span><span class="nx">intersectionPlane</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">intersects</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">end</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">();</span>
+      <span class="kd">var</span> <span class="nx">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span>
+        <span class="p">(</span> <span class="p">(</span> <span class="nx">x</span> <span class="p">)</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">width</span><span class="p">()</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">-</span><span class="p">(</span> <span class="p">(</span> <span class="nx">y</span> <span class="p">)</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">height</span><span class="p">()</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mf">0.5</span>
+      <span class="p">);</span>
+
+      <span class="nx">intersectionPlane</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">selected</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+      <span class="nx">intersectionPlane</span><span class="p">.</span><span class="nx">lookAt</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span> <span class="p">);</span>
+
+      <span class="nx">object</span> <span class="o">=</span> <span class="nx">object</span> <span class="o">||</span> <span class="nx">intersectionPlane</span><span class="p">;</span>
+
+      <span class="nx">projector</span><span class="p">.</span><span class="nx">unprojectVector</span><span class="p">(</span> <span class="nx">vector</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span> <span class="p">);</span>
+
+      <span class="nx">ray</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">,</span> <span class="nx">vector</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">.</span><span class="nx">position</span> <span class="p">).</span><span class="nx">normalize</span><span class="p">()</span> <span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">object</span> <span class="k">instanceof</span> <span class="nb">Array</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">intersects</span> <span class="o">=</span> <span class="nx">ray</span><span class="p">.</span><span class="nx">intersectObjects</span><span class="p">(</span> <span class="nx">object</span> <span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">intersects</span> <span class="o">=</span> <span class="nx">ray</span><span class="p">.</span><span class="nx">intersectObject</span><span class="p">(</span> <span class="nx">object</span> <span class="p">);</span>
+      <span class="p">}</span>
+
+
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">intersects</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">end</span> <span class="o">=</span> <span class="nx">intersects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">point</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="nx">end</span><span class="p">;</span>
+
+    <span class="p">};</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">Utils</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Utils&#39;</span><span class="p">,</span> <span class="nx">Module</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

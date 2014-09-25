@@ -1,0 +1,81 @@
+@import '../../less/variables.less';
+
+.header-button {
+  height: 15px;
+  width: 15px;
+  margin: 5px;
+  margin-left: 8px;
+  margin-right: -3px;
+  float: left;
+  text-align: center;
+  line-height: 12px;
+
+  span {
+    visibility: hidden;
+  }
+
+  &:hover {
+    span {
+      visibility: inherit;
+    }
+  }
+}
+
+.save-status {
+  position: absolute;
+  top: 0px;
+  line-height: 19px;
+  right: 25px;
+  padding: 2px 10px;
+  color: #EFEFEF;
+
+  .title {
+    color: #E5E5E5;
+  }
+
+  .title, .changes-check, .changes-ex {
+    margin-right: 5px;
+  }
+
+  .changes-check {
+    color: @green;
+  }
+
+  .changes-ex {
+    color: #6D6D6D;
+  }
+
+  .fa {
+    font-size: 1.3em;
+    vertical-align: middle;
+  }
+
+  /* overrides .fa so needs to be after it */
+  .expand-renderer {
+    padding-left: 7px;
+    border-left: 1px solid #585858;
+    font-size: 1em;
+    color: #6D6D6D;
+
+    &:hover {
+    color: #E5E5E5;
+    cursor: pointer;
+    }
+  }
+
+  .fa-rotate-45 {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+/**************
+TABBAR
+**************/
+/*.tabbar {
+//   padding-right: 200px;
+//   padding-left: 40px
+ }*/

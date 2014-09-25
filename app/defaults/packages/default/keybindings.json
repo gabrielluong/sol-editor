@@ -1,0 +1,3 @@
+{
+  "command+n": "service.keyboard(Keyboard)[create_new_file]"
+}

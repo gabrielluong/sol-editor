@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/launch_bar/launch_bar.service</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/modules/launch_bar/launch_bar.service"><meta name="groc-project-path" content="app/modules/launch_bar/launch_bar.service.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/launch_bar/launch_bar.service.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>----SKWINTZ--------------------------------------------------------------- </p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">attributes</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">&#39;templateUrl&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;controller&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;icon&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;size&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;forceVisible&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;visible&#39;</span>
+<span class="p">];</span>
+
+<span class="kd">function</span> <span class="nx">pick</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">diff</span> <span class="o">=</span> <span class="p">{};</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">diff</span><span class="p">[</span><span class="s1">&#39;$&#39;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">ret</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">diff</span><span class="o">:</span> <span class="nx">diff</span><span class="p">,</span>
+    <span class="nx">obj</span><span class="o">:</span> <span class="nx">ret</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">_cache</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;service.launch_bar&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.signals&#39;</span>
+<span class="p">]);</span>
+
+<span class="kd">function</span> <span class="nx">Module</span> <span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">$controller</span><span class="p">,</span> <span class="nx">Signals</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">LaunchBar</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">direction</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">__sortIndex</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="nx">name</span><span class="p">,</span>
+      <span class="nx">direction</span><span class="o">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="nx">modules</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">signals</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">onAdd</span><span class="o">:</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+        <span class="nx">onRemove</span><span class="o">:</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+
+        <span class="nx">onSelected</span><span class="o">:</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+        <span class="nx">onDeselected</span><span class="o">:</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">()</span>
+      <span class="p">},</span>
+
+      <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">attrs</span><span class="p">)</span> <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+
+        <span class="kd">var</span> <span class="nx">picked</span> <span class="o">=</span> <span class="nx">pick</span><span class="p">(</span><span class="nx">attrs</span><span class="p">);</span>
+
+        <span class="nx">picked</span><span class="p">.</span><span class="nx">obj</span><span class="p">.</span><span class="nx">active</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">picked</span><span class="p">.</span><span class="nx">obj</span><span class="p">.</span><span class="nx">forceVisible</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">picked</span><span class="p">.</span><span class="nx">obj</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">picked</span><span class="p">.</span><span class="nx">obj</span><span class="p">);</span>
+
+        <span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+
+        <span class="nx">module</span><span class="p">.</span><span class="nx">scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+        <span class="nx">module</span><span class="p">.</span><span class="nx">controller</span> <span class="o">=</span> <span class="nx">$controller</span><span class="p">(</span> <span class="nx">module</span><span class="p">.</span><span class="nx">controller</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span> <span class="nx">$scope</span><span class="o">:</span> <span class="nx">module</span><span class="p">.</span><span class="nx">scope</span> <span class="p">},</span> <span class="nx">picked</span><span class="p">.</span><span class="nx">diff</span><span class="p">)</span> <span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">signals</span><span class="p">.</span><span class="nx">onAdd</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">module</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$$phase</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+      <span class="p">},</span>
+
+      <span class="nx">remove</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">spliced</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">signals</span><span class="p">.</span><span class="nx">onRemove</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">spliced</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+      <span class="p">},</span>
+
+      <span class="nx">toggle</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">active</span> <span class="o">=</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">active</span><span class="p">;</span>
+
+        <span class="nx">Signals</span><span class="p">.</span><span class="nx">viewResize</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">active</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">sortModules</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="kd">function</span> <span class="nx">sortModules</span> <span class="p">(</span><span class="nx">mostRecentActivated</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">mostRecentActivated</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="nx">mostRecentActivated</span><span class="p">)</span> <span class="nx">ret</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">__sortIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">else</span> <span class="nx">ret</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">__sortIndex</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_cache</span><span class="p">[</span><span class="nx">name</span><span class="p">])</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">ret</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="nx">LaunchBar</span><span class="p">.</span><span class="nx">keep</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">guid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">_cache</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span> <span class="o">=</span> <span class="nx">guid</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">forceVisible</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">_cache</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">modules</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">LaunchBar</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span> <span class="s1">&#39;LaunchBar&#39;</span><span class="p">,</span> <span class="nx">Module</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

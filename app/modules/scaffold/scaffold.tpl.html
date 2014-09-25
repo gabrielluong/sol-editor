@@ -1,0 +1,30 @@
+<div pallette="files"></div>
+<div pallette="actions"></div>
+
+<div class="left-bar tabs-pane">
+  <launchbar class="vertical-launchbar" name="vertical" modules="vertical_launchbar"></launchbar>
+</div>
+
+<div class="middle">
+  <div class="middle-top">
+    <div class="launch-bar-view-container" launch-bar-view-container="vertical_launchbar"></div>
+
+    <tabcontainer class="main-view"
+                  name="main" ng-init="active = true"></tabcontainer>
+  </div>
+  <div console></div>
+  <div class="bottom-launch-views" launch-bar-view-container="horizontal_launchbar"></div>
+</div>
+
+<div class="bottom south-container menu-pane">
+  <div class="logo-container" ng-click="go_home()">
+    <img class="logo" src="images/logo_small.png" />
+  </div>
+
+  <launchbar class="horizontal-launchbar" name="horizontal" modules="horizontal_launchbar"></launchbar>
+
+  <div class="renderer-toggle-play-buttons" ng-if="selectedController === 'sol.file_handler.renderer'">
+    <div class="renderer-toggle play">Play</div>
+    <div class="renderer-toggle build">Build</div>
+  </div>
+</div>

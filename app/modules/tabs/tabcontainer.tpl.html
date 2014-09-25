@@ -1,0 +1,55 @@
+<script type="text/ng-template"  id="tab_container.html">
+  <tabbar data="_child.tabs"
+          ng-if="_child.children.length === 0"
+          name="{{_child.tabs.name}}"></tabbar>
+
+  <div ng-repeat="tab in _child.tabs.tabs"
+        ng-show="_child.tabs.selectedIndex === $index"
+        ng-show="_child.tabs.isActive()"
+        class="tab-container"
+        index="{{$index}}"
+        ng-if="_child.children.length === 0"
+        tab-container-item></div>
+
+  <!-- dummy div to set parents flex status -->
+  <span ng-init="_parent = _child"></span>
+
+  <div ng-repeat-start="_child in _child.children"
+       ng-include="'tab_container.html'"
+       style="display:flex; flex:1;"
+       ng-style="randomBg"
+       class="tab-container"
+       ng-init="randomBg = randomBackground();"
+       ng-class="{'selected': tabContainer.selected.id === _child.id,
+                  'flex-column': _child.flexDirection === 'column',
+                  'flex-row': _child.flexDirection === 'row'}"
+       ng-click="select($event, _child)"></div>
+  <div ng-class="{'resizer-c': (_parent.flexDirection === 'column'),
+                  'resizer-r': (_parent.flexDirection === 'row')}"
+       ng-repeat-end
+       ng-if="!$last"
+       resizer="_parent.flexDirection"></div>
+</script>
+
+<div ng-class="{'flex-column': tabContainer.root.flexDirection === 'column',
+                'flex-row': tabContainer.root.flexDirection === 'row'}"
+     class="tab-container">
+
+  <div ng-repeat-start="_child in tabContainer.root.children"
+       style="display:flex; flex:1;"
+       class="tab-container"
+       ng-include="'tab_container.html'"
+       ng-style="randomBg"
+       ng-init="randomBg = randomBackground();"
+       ng-class="{'selected': tabContainer.selected.id === _child.id,
+                'flex-column': _child.flexDirection === 'column',
+                'flex-row': _child.flexDirection === 'row'}"
+       ng-click="select($event, _child);"></div>
+
+  <div ng-repeat-end
+       ng-class="{'resizer-c': tabContainer.root.flexDirection === 'column',
+                  'resizer-r': tabContainer.root.flexDirection === 'row'}"
+       ng-if="!$last"
+       class="resizer"
+       resizer="tabContainer.root.flexDirection"></div>
+</div>

@@ -1,0 +1,33 @@
+@import "../../less/variables.less";
+
+.section-tags {
+  padding: 3px;
+  background-color: @dark-grey;
+
+  .section-tag {
+    padding: 3px;
+    font-size: 1.3em;
+    border: 1px solid #CCC;
+    float: left;
+    margin: 2px;
+
+    .section-tag-delete {
+      color: #AAA;
+      cursor: pointer;
+
+      &:hover {
+        color: #585858;
+      }
+    }
+  }
+
+  input {
+    width: 100%;
+    display: block;
+    background-color: @grey;
+    color: #EFEFEF;
+    padding-left: 5px;
+    height: 30px;
+    border: none;
+  }
+}

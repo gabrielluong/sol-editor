@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><title>app/common/services/utilities/signals</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../../"><meta name="groc-document-path" content="app/common/services/utilities/signals"><meta name="groc-project-path" content="app/common/services/utilities/signals.js"><link rel="stylesheet" type="text/css" media="all" href="../../../../assets/style.css"><script type="text/javascript" src="../../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/common/services/utilities/signals.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="c1">//TODO: fix this file. the service is setup wront @blocker 1</span>
+
+<span class="kd">var</span> <span class="nx">self</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;service.signals&#39;</span><span class="p">,</span> <span class="p">[]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="kd">function</span> <span class="nx">Signals</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">self</span><span class="p">)</span> <span class="k">return</span> <span class="nx">self</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">SIGNALS</span> <span class="o">=</span> <span class="nx">signals</span><span class="p">;</span>
+
+  <span class="nx">self</span> <span class="o">=</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>import / export</p></div></div><div class="code"><div class="wrapper">    <span class="nx">exportProject</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">importProject</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">exportScene</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">importScene</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>actions</p></div></div><div class="code"><div class="wrapper">    <span class="nx">cloneObject</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">removeObject</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">toggleHelpers</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">resetScene</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">addScene</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">addScript</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">toProjectNavigation</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">toSceneNavigation</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">save</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>notifications</p></div></div><div class="code"><div class="wrapper">    <span class="nx">sceneAdded</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">sceneChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">objectAdded</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">objectSelected</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">objectChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">materialChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">clearColorChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">cameraChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">fogTypeChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">fogColorChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">fogParametersChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>change view</p></div></div><div class="code"><div class="wrapper">    <span class="nx">positionChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">rotationChanged</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>files</p></div></div><div class="code"><div class="wrapper">    <span class="nx">openFile</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">showFileDialog</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">newEmptyFile</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+
+    <span class="nx">viewResize</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">(),</span>
+    <span class="nx">canvasClicked</span><span class="o">:</span> <span class="k">new</span> <span class="nx">SIGNALS</span><span class="p">.</span><span class="nx">Signal</span><span class="p">()</span>
+
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">resize</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">self</span><span class="p">.</span><span class="nx">viewResize</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="k">return</span> <span class="nx">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">service</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span> <span class="s1">&#39;Signals&#39;</span><span class="p">,</span> <span class="nx">Signals</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

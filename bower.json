@@ -1,0 +1,30 @@
+{
+  "name": "sol-editor",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "vendor"
+  ],
+  "dependencies": {
+    "angular-strap": "~2.0.2",
+    "angular-ui": "~0.4.0",
+    "jquery.layout": "*",
+    "signals": "~1.0.0",
+    "three.js": "*",
+    "mousetrap": "~1.4.6",
+    "angular-resource": "~1.2.16",
+    "angular-cookies": "~1.2.16",
+    "angular-file-upload": "~0.5.7",
+    "tween.js": "git://github.com/sole/tween.js.git",
+    "ocLazyLoad": "~0.3.3"
+  },
+  "resolutions": {
+    "angular": "~1.2.10"
+  }
+}

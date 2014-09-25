@@ -1,0 +1,11 @@
+<div class="launchbar" ng-class="{'horizontal': (modules.direction === 'horizontal'), 'vertical': (modules.direction === 'vertical')}">
+  <div ng-repeat="module in modules.modules"
+        class="module"
+        ng-class="{'active': (module.active)}"
+        ng-show="module.visible || module.forceVisible || module.scope.visible"
+        ng-click="modules.toggle($index); toggle();"
+        index="{{$index}}"
+        launchbar-module-button>
+    <span class="fa {{module.icon}}"></span>
+  </div>
+</div>

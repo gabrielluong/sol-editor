@@ -1,0 +1,116 @@
+@import "../../../less/variables.less";
+
+.module-container-Selected {
+  width: 250px;
+}
+
+.selected-section {
+  width: 100%;
+  margin-bottom: 5px;
+
+  .section-header {
+    padding: 5px 10px;
+    font-size: 1.3em;
+    background-color: @charcoal;
+    color: #EFEFEF;
+
+    .section-header-button {
+      display: inline-block;
+      float: right;
+      margin-top: 3px;
+    }
+  }
+
+  .section-repeater {
+    margin-bottom: 5px;
+  }
+
+  .full-width-label-span {
+    overflow: hidden;
+
+    span {
+      display: flex;
+      overflow: hidden;
+
+      input {
+        flex: 1;
+        height: 30px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: 1.1em;
+        outline: none;
+        border: none;
+        background-color: @charcoal;
+        color: #EFEFEF;
+
+        &.bordered {
+          border: 1px solid @green;
+        }
+      }
+    }
+
+    label {
+      float: left;
+      font-size: 1.4em;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      line-height: 30px;
+      background-color: @green;
+      color: #EFEFEF;
+      margin-bottom: 0px;
+    }
+  }
+
+  .section-search {
+    background-color: @dark-grey;
+    padding: 3px;
+    width: 100%;
+
+    label {
+      background-color: @grey;
+    }
+
+    span {
+      input {
+        background-color: @grey;
+      }
+    }
+  }
+
+  .section-full-input {
+    width: 100%;
+    border: none;
+    padding: 5px 10px;
+    font-size: 1.2em;
+
+    &.dark {
+      background-color: @charcoal;
+      color: #EFEFEF;
+    }
+  }
+  .section-button {
+    border-radius: 0px;
+    border: 1px solid #EFEFEF;
+  }
+
+  .section-label-button {
+    display: flex;
+    overflow: hidden;
+
+    span {
+      padding: 10px;
+      display: inline-block;
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #E5E5E5;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><title>app/file_handlers/renderer/renderer.directive</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/file_handlers/renderer/renderer.directive"><meta name="groc-project-path" content="app/file_handlers/renderer/renderer.directive.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/file_handlers/renderer/renderer.directive.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">directive</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.renderer&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.renderer&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.navigator&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;service.signals&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">directive</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;renderer&#39;</span><span class="p">,</span>
+  <span class="kd">function</span> <span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">Renderer</span><span class="p">,</span> <span class="nx">Signals</span><span class="p">,</span> <span class="nx">$timeout</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;EA&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Renderer</span><span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">guid</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">file_hash</span><span class="p">);</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">resetInteractive</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+
+      <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="s1">&#39;view.resize&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$timeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">width</span><span class="p">();</span>
+          <span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">height</span><span class="p">();</span>
+
+          <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+
+      <span class="nx">Signals</span><span class="p">.</span><span class="nx">viewResize</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="nx">resize</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$timeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">width</span><span class="p">();</span>
+          <span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">height</span><span class="p">();</span>
+
+          <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onMousedown</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">mousedown</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onKeydown</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">__keydown</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onKeyup</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">__keyup</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onMouseup</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">mouseup</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onMousemove</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">mousemove</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">onDblclick</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">dblclick</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="nx">element</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">__renderer</span><span class="p">.</span><span class="nx">domElement</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">directive</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;navigator&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">Navigator</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;EA&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">navigator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Navigator</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">);</span>
+
+      <span class="nx">element</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mousemove.navigator&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">e</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">project</span><span class="p">(</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageX</span> <span class="o">-</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageY</span> <span class="o">-</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span> <span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">element</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click.navigator&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">e</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">project</span><span class="p">(</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageX</span> <span class="o">-</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">offset</span><span class="p">().</span><span class="nx">left</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">pageY</span> <span class="o">-</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">element</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">__renderer</span><span class="p">.</span><span class="nx">domElement</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>

@@ -1,0 +1,52 @@
+@import "../../../less/variables.less";
+
+.module-container-Files {
+  width: 200px;
+  overflow: auto;
+
+  .user-select(none);
+}
+
+.file-tree {
+  display: inline-block;
+  min-width: 100%;
+
+  .file-tree-title {
+    display: block;
+    padding: 10px 0px 0px 10px;
+    color: #EFEFEF;
+    font-size: 1.5em;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 5px;
+
+    li {
+      color: #EFEFEF;
+      font-size: 1.2em;
+      white-space: nowrap;
+      padding-left: 5px;
+      padding-bottom: 0px;
+      padding-top: 5px;
+      display: block;
+
+      &:hover {
+        cursor: pointer;
+        color: #232323;
+      }
+
+      &:not(.directory) {
+        line-height: 15px;
+
+        &.selected {
+          background-color: #D9D9D9;
+        }
+      }
+
+      ul {
+        padding-left: 15px;
+      }
+    }
+  }
+}

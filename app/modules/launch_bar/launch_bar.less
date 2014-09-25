@@ -1,0 +1,54 @@
+@import "../../less/variables.less";
+
+@bar-size: 50px;
+
+.launchbar {
+  .user-select(none);
+
+  .module {
+    color: #EFEFEF;
+    text-align: center;
+    font-size: 2.2em;
+    height: @bar-size;
+    width: @bar-size;
+    line-height: @bar-size;
+
+    &:hover:not(.active) {
+      background-color: #585858;
+    }
+
+    &.active {
+      color: @green;
+    }
+  }
+
+  &.horizontal {
+    height: @bar-size;
+
+    .module {
+      border-right: 1px solid #505050;
+    }
+  }
+
+  &.vertical {
+    width: @bar-size;
+    height: 100%;
+    float: left;
+    border-right: 1px solid #505050;
+
+    .module {
+      height: @bar-size;
+      width: @bar-size;
+      line-height: @bar-size;
+      border-bottom: 1px solid #505050;
+    }
+
+    &:first-child {
+      border-top: 1px solid #505050;
+    }
+  }
+}
+
+.launch-bar-view-container {
+  background-color: @charcoal;
+}

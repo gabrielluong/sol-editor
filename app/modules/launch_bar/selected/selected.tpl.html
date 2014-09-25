@@ -1,0 +1,96 @@
+<div class="selected-section">
+  <div class="section-header">
+    Selected
+  </div>
+  <div section-tags="renderer.selected.tags"></div>
+</div>
+
+<div class="selected-section">
+  <div class="section-header">
+    <input class="section-full-input dark"
+           ng-model="renderer.selected.name"/>
+  </div>
+
+  <div class="full-width-label-span">
+    <label>p</label>
+    <span>
+      <input class="bordered"
+             ng-model="renderer.selected.position.x"
+             round-number/>
+      <input class="bordered"
+             ng-model="renderer.selected.position.y"
+             round-number />
+      <input class="bordered"
+             ng-model="renderer.selected.position.z"
+             round-number />
+    </span>
+  </div>
+
+  <div class="full-width-label-span">
+    <label>r</label>
+    <span>
+      <input class="bordered"
+             ng-model="renderer.selected._quaternion.x"
+             round-number />
+      <input class="bordered"
+             ng-model="renderer.selected._quaternion.y"
+             round-number />
+      <input class="bordered"
+             ng-model="renderer.selected._quaternion.z"
+             round-number />
+    </span>
+  </div>
+
+  <div class="full-width-label-span">
+    <label>s</label>
+    <span>
+      <input class="bordered"
+             ng-model="renderer.selected.scale.x"
+             round-number />
+      <input class="bordered"
+             ng-model="renderer.selected.scale.y"
+             round-number />
+      <input class="bordered"
+             ng-model="renderer.selected.scale.z"
+             round-number />
+    </span>
+  </div>
+</div>
+
+<div class="selected-section">
+  <div class="section-header">
+    Scripts
+    <span class="section-header-button fa fa-plus"
+          ng-click="addScript()"></span>
+  </div>
+  <div class="section-search full-width-label-span">
+    <label class="fa fa-search"></label>
+    <span><input ng-model="searchText" /></span>
+  </div>
+
+  <div class="section-repeater"
+       ng-repeat="script in renderer.selected.scripts | filter:searchText">
+
+    <input class="section-full-input"
+           ng-model="script.name" />
+
+    <button type="button"
+            class="btn btn-default section-button pull-left"
+            ng-model="script.event"
+            ng-options="choice for choice in script_events.values"
+            bs-select>
+      Event
+      <span class="caret"></span>
+    </button>
+
+    <div class="section-label-button">
+      <span title="{{script.file}}"
+            ng-click="chooseFile(script)">{{getFileName(script.file)}}</span>
+    </div>
+    <!-- <select class="section-select"
+            ng-model="script.event"
+            ng-options="choice for choice in script_events.values"></select> -->
+
+  </div>
+</div>
+

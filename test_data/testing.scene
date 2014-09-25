@@ -1,0 +1,13 @@
+{
+	"metadata": {
+		"version": 4,
+		"type": "object",
+		"generator": "ObjectExporter"
+	},
+	"object": {
+		"type": "Scene",
+		"children": [
+			null,
+			null]
+	}
+}

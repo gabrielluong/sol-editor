@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><title>app/modules/pallette/pallette.directive</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="app/modules/pallette/pallette.directive"><meta name="groc-project-path" content="app/modules/pallette/pallette.directive.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">app/modules/pallette/pallette.directive.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>// -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
+ // --
+ // -- File Name: app.js
+ // --
+ // -- Author: Paul Nispel
+ // --
+ // -----------------------------------------------------------------------------
+ // -- History:
+ // **
+ // -- PMN - 1/18/14 - Baseline
+ // --
+ // -----------------------------------------------------------------------------
+ // -- Copyright 2014 Skwintz
+ // -----------------------------------------------------------------------------</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span> <span class="s1">&#39;directive.pallette&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;service.pallette&#39;</span>
+<span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;pallette&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Pallette</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+    <span class="nx">replace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;/modules/pallette/pallette.tpl.html&#39;</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">postLink</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pallette</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">pallette</span><span class="p">);</span>
+
+      <span class="kd">function</span> <span class="nx">closePallette</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div:not(.pallette, .pallette *)&#39;</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="s1">&#39;[ui-view=&quot;main&quot;]&#39;</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;click.pallette&#39;</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;keydown.pallette&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+      
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="s1">&#39;pallette.active&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span><span class="p">.</span><span class="nx">active</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">element</span><span class="p">.</span><span class="nx">children</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div:not(.pallette, .pallette *)&#39;</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="s1">&#39;[ui-view=&quot;main&quot;]&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click.pallette&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div:not(.pallette, .pallette *)&#39;</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="s1">&#39;[ui-view=&quot;main&quot;]&#39;</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;click.pallette&#39;</span><span class="p">);</span>
+
+            <span class="nx">closePallette</span><span class="p">();</span>
+          <span class="p">});</span>
+
+          <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;keydown.pallette&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">which</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">case</span> <span class="mi">27</span><span class="o">:</span> <span class="c1">//esc</span>
+                <span class="nx">closePallette</span><span class="p">();</span>
+                <span class="k">break</span><span class="p">;</span>
+
+              <span class="k">case</span> <span class="mi">40</span><span class="o">:</span> <span class="c1">//down arrow</span>
+                <span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span><span class="p">.</span><span class="nx">moveIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+
+              <span class="k">case</span> <span class="mi">38</span><span class="o">:</span> <span class="c1">//up arrow</span>
+                <span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span><span class="p">.</span><span class="nx">moveIndex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+
+              <span class="k">case</span> <span class="mi">13</span><span class="o">:</span> <span class="c1">//enter</span>
+                <span class="nx">scope</span><span class="p">.</span><span class="nx">pallette</span><span class="p">.</span><span class="nx">trigger</span><span class="p">();</span>
+                <span class="nx">closePallette</span><span class="p">();</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+          <span class="p">});</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr /></div></div><div class="code"><div class="wrapper"><span class="p">})();</span></div></div></div></div></body></html>
